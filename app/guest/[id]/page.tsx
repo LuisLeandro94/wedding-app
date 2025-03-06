@@ -10,8 +10,10 @@ type Guest = {
   willBeAttending: boolean | null;
 };
 
-export default function GuestPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+type tParams = Promise<{ id: string }>;
+
+export default function GuestPage(props: { params: tParams }) {
+  const { id } = props.params;
   const [guest, setGuest] = useState<Guest | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
