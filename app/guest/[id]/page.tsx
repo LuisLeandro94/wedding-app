@@ -10,11 +10,7 @@ type Guest = {
   willBeAttending: boolean | null;
 };
 
-type GuestPageProps = {
-  params: { id: string };
-};
-
-export default function GuestPage({ params }: GuestPageProps) {
+export default function GuestPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const [guest, setGuest] = useState<Guest | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
