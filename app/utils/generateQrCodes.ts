@@ -11,7 +11,7 @@ export async function generateQrCodes(guests: Guest[]) {
   }
 
   for (const guest of guests) {
-    const qrData = `http://localhost:3001/guest/${guest.id}`;
+    const qrData = `https://carlaeluis.pt/guest/${guest.id}`;
     const svgString = await QRCode.toString(qrData, { type: 'svg' });
 
     guest.qrCodeString = svgString;

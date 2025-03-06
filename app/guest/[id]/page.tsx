@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 type Guest = {
@@ -16,7 +15,6 @@ type GuestPageProps = {
 };
 
 export default function GuestPage({ params }: GuestPageProps) {
-  const router = useRouter();
   const { id } = params;
   const [guest, setGuest] = useState<Guest | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
