@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 type Guest = {
@@ -10,15 +11,17 @@ type Guest = {
   willBeAttending: boolean | null;
 };
 
-type tParams = Promise<{ id: string }>;
 
-export default function GuestPage(props: { params: tParams }) {
-  const { id } = props.params;
+export default function GuestPage() {
+  const router = useRouter();
+  const { id } = router.query;
   const [guest, setGuest] = useState<Guest | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!id) return;
+
     async function fetchGuest() {
       try {
         const response = await fetch('/data/guests.json');

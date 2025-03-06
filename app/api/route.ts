@@ -1,6 +1,6 @@
 import { generateQrCodes } from '../utils/generateQrCodes';
 
-export async function POST(req) {
+export async function POST(req: Request) {
   try {
     const { guests } = await req.json();
     if (!guests || !Array.isArray(guests)) {

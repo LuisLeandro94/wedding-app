@@ -12,11 +12,11 @@ function readGuests() {
   return JSON.parse(fs.readFileSync(guestsFilePath, 'utf8'));
 }
 
-function writeGuests(guests) {
+function writeGuests(guests: Guest[]) {
   fs.writeFileSync(guestsFilePath, JSON.stringify(guests, null, 2), 'utf8');
 }
 
-export async function POST(req) {
+export async function POST(req: Request) {
   try {
     const { guestId, willBeAttending } = await req.json();
     const guests = readGuests();
