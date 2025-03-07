@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Rosa Ramos",
+    "numberOfGuests": 2,
+    "qrCodeString": "1234567890abcdef",
+    "willBeAttending": null
+  },
+  {
+    "id": 2,
+    "name": "Palmira Leandro",
+    "numberOfGuests": 1,
+    "qrCodeString": "abcdef1234567890",
+    "willBeAttending": null
+  },
+  {
+    "id": 3,
+    "name": "Fell Ramos",
+    "numberOfGuests": 3,
+    "qrCodeString": "0987654321abcdef",
+    "willBeAttending": null
+  },
+  {
+    "id": 4,
+    "name": "Anabela Ramos",
+    "numberOfGuests": 3,
+    "qrCodeString": "0987654321abcdef",
+    "willBeAttending": null
+  }
+]

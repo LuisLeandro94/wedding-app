@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "mongodb": "^6.14.2",
     "next": "15.2.1",
     "qrcode": "^1.5.4",
     "react": "^19.0.0",

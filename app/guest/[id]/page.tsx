@@ -23,7 +23,7 @@ export default function GuestPage() {
 
     async function fetchGuest() {
       try {
-        const response = await fetch('/data/guests.json');
+        const response = await fetch('/guests.json');
         const guests: Guest[] = await response.json();
         const foundGuest = guests.find((g) => g.id === Number(id));
         if (!foundGuest) throw new Error('Guest not found');
