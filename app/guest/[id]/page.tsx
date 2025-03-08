@@ -23,11 +23,16 @@ export default function GuestPage() {
 
     async function fetchGuest() {
       try {
-        const response = await fetch('/guests.json');
-        const guests: Guest[] = await response.json();
-        const foundGuest = guests.find((g) => g.id === Number(id));
-        if (!foundGuest) throw new Error('Guest not found');
-        setGuest(foundGuest);
+        const response = await fetch(`/api/rsvp?id=${id}`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (response.ok) {
+          const { guest } = await response.json();
+
+          setGuest(guest);
+        }
       } catch (err) {
         setError((err as Error).message);
       } finally {
