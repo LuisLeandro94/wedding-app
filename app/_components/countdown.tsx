@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { CountdownCard } from './countdownCard';
+import LoadingSpinner from "./loading";
 
 export const CountdownTimer = () => {
     //card ref
@@ -45,30 +46,32 @@ export const CountdownTimer = () => {
         return () => clearInterval(interval);
     }, []);
 
-    if (isLoading) return <div>Loading...</div>;
-
     return (
         <div className="countdown__container" >
-            <CountdownCard
-                label="days"
-                number={days}
-                cardRef={DaysCardRef}
-            />
-            <CountdownCard
-                label="hours"
-                number={hours}
-                cardRef={HoursCardRef}
-            />
-            <CountdownCard
-                label="minutes"
-                number={minutes}
-                cardRef={MinutesCardRef}
-            />
-            <CountdownCard
-                label="seconds"
-                number={seconds}
-                cardRef={SecondsCardRef}
-            />
+            {isLoading ? <LoadingSpinner /> : (
+                <>
+                    <CountdownCard
+                        label="days"
+                        number={days}
+                        cardRef={DaysCardRef}
+                    />
+                    <CountdownCard
+                        label="hours"
+                        number={hours}
+                        cardRef={HoursCardRef}
+                    />
+                    <CountdownCard
+                        label="minutes"
+                        number={minutes}
+                        cardRef={MinutesCardRef}
+                    />
+                    <CountdownCard
+                        label="seconds"
+                        number={seconds}
+                        cardRef={SecondsCardRef}
+                    />
+                </>
+            )}
         </div >
     )
 }

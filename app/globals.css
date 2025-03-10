@@ -84,3 +84,39 @@ body {
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
+
+/* Loader spinner */
+
+.spinner-container {
+  position: relative;
+  width: 100px; /* Adjust as needed */
+  height: 100px;
+  margin: auto;
+}
+
+.static-letters {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.rotating-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Adjust size as needed */
+  height: 100%;
+  transform-origin: center;
+  animation: spin 2s linear infinite;
+}
+
+
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
