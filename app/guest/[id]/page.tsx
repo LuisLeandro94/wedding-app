@@ -1,6 +1,6 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 type Guest = {
@@ -13,10 +13,17 @@ type Guest = {
 
 
 export default function GuestPage() {
+  const router = useRouter();
   const { id } = useParams();
   const [guest, setGuest] = useState<Guest | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem('userId', Number(id).toString());
+
+    router.push('/');
+  })
 
   useEffect(() => {
     if (!id) return;

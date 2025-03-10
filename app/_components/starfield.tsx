@@ -82,7 +82,7 @@ const Starfield: React.FC = () => {
             const length = Math.random() * 300 + 100;
             const speed = Math.random() * 4 + 2;
             shootingStar = { x: startX, y: startY, length, speed, opacity: 1, dx: Math.cos(angle) * speed, dy: Math.sin(angle) * speed };
-            setTimeout(createShootingStar, Math.random() * 20000 + 20000);
+            setTimeout(createShootingStar, Math.random() * 2500 + 5000);
         };
 
         const updateShootingStar = () => {
@@ -127,7 +127,7 @@ const Starfield: React.FC = () => {
 
         resizeCanvas();
         createStars();
-        setTimeout(createShootingStar, Math.random() * 20000 + 20000);
+        setTimeout(createShootingStar, Math.random() * 1000);
         animate();
 
         window.addEventListener("resize", resizeCanvas);
