@@ -9,7 +9,7 @@ const RSVPPage: React.FC = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // Handle form submission logic here
-        console.log({ name, email, attending, message });
+        console.log({ name, email, message });
     };
 
     return (
