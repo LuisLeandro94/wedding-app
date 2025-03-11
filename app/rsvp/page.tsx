@@ -1,11 +1,9 @@
 'use client'
 import React, { useState } from 'react';
-import { Switch } from '../_components/switchToggle';
 
 const RSVPPage: React.FC = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [attending, setAttending] = useState(false);
     const [message, setMessage] = useState('');
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -25,7 +23,6 @@ const RSVPPage: React.FC = () => {
                 </div>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        {/* <Switch /> */}
                     </div>
                     <div>
                         <label htmlFor="name">Name:</label>
