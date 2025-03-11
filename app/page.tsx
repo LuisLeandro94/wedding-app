@@ -52,8 +52,7 @@ export default function Home() {
           <Image src={Logo} alt="Beige Boho Floral Logo for Custom Florist Business" />
           <Image src={Line} alt="Beige Boho Floral Logo for Custom Florist Business" className="m-auto mt-15" />
           <CountdownTimer />
-          {userId !== 0 && <button className="m-auto mt-8 rounded-md cursor-pointer before:ease relative h-12 w-40 overflow-hidden border border-(--accent) bg-(--accent) text-(--background) shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-(--accent) hover:before:-translate-x-40" onClick={() => router.push("/guests/3")}>Confirmar presença</button>}</>)}
-
+          {userId !== 0 && <button className="m-auto mt-8 rounded-md cursor-pointer before:ease relative h-12 w-40 overflow-hidden border border-(--accent) bg-(--accent) text-(--background) shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-(--accent) hover:before:-translate-x-40" onClick={() => router.push("/rsvp")}>Confirmar presença</button>}</>)}
       </main>
     </div>
   );
