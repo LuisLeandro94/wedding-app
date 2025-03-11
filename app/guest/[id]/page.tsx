@@ -19,11 +19,6 @@ export default function GuestPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    localStorage.setItem('userId', Number(id).toString());
-
-    router.push('/');
-  })
 
   useEffect(() => {
     if (!id) return;
@@ -39,6 +34,12 @@ export default function GuestPage() {
           const { guest } = await response.json();
 
           setGuest(guest);
+          localStorage.setItem('userId', Number(id).toString());
+
+          if (guest) {
+            localStorage.setItem('guestName', guest.name);
+            console.log(guest);
+          }
         }
       } catch (err) {
         setError((err as Error).message);
@@ -47,6 +48,8 @@ export default function GuestPage() {
       }
     }
     fetchGuest();
+
+    router.push('/');
   }, [id]);
 
   const handleRSVP = async (willAttend: boolean) => {
