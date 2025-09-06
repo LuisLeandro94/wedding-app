@@ -9,13 +9,14 @@ type Guest = {
   numberOfGuests: number;
   qrCodeString: string;
   willBeAttending: boolean | null;
+  tableName: string;
 };
 
 
 export default function GuestPage() {
   const router = useRouter();
   const { id } = useParams();
-  const [guest, setGuest] = useState<Guest | null>(null);
+  const [user, setUser] = useState<Guest | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,6 +26,7 @@ export default function GuestPage() {
 
     async function fetchGuest() {
       try {
+        debugger;
         const response = await fetch(`/api/rsvp?id=${id}`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
@@ -33,13 +35,14 @@ export default function GuestPage() {
         if (response.ok) {
           const { guest } = await response.json();
 
-          setGuest(guest);
-          localStorage.setItem('userId', Number(id).toString());
-
-          if (guest) {
-            localStorage.setItem('guestName', guest.name);
-            console.log(guest);
+          if (!guest) {
+            setError('Guest not found');
+            return;
           }
+
+          setUser(guest);
+          localStorage.setItem('userId', Number(id).toString());
+          localStorage.setItem('guest', JSON.stringify(guest));
         }
       } catch (err) {
         setError((err as Error).message);

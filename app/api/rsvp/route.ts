@@ -45,6 +45,8 @@ export async function GET(req: Request) {
 
     const guest = await guestsCollection.findOne({ id: Number(guestId) });
 
+    debugger;
+
     if (!guest) {
       console.error('Guest not found:', guestId);
       return new Response(JSON.stringify({ error: 'Guest not found' }), {

@@ -5,6 +5,7 @@ export interface Guest {
   qrCodeString: string;
   familySide: 'bride' | 'groom' | 'both';
   willBeAttending: boolean | null;
+  tableName: string;
 }
 
 export const guestList: Guest[] = [
@@ -15,6 +16,7 @@ export const guestList: Guest[] = [
     qrCodeString: '',
     familySide: 'bride',
     willBeAttending: null,
+    tableName: 'Andromeda',
   },
   {
     id: 2,
@@ -23,6 +25,7 @@ export const guestList: Guest[] = [
     qrCodeString: '',
     familySide: 'groom',
     willBeAttending: null,
+    tableName: 'Andromeda',
   },
   {
     id: 3,
@@ -31,6 +34,7 @@ export const guestList: Guest[] = [
     qrCodeString: '',
     familySide: 'bride',
     willBeAttending: null,
+    tableName: 'Andromeda',
   },
   {
     id: 4,
@@ -39,5 +43,6 @@ export const guestList: Guest[] = [
     qrCodeString: '',
     familySide: 'bride',
     willBeAttending: null,
+    tableName: 'Andromeda',
   },
 ];

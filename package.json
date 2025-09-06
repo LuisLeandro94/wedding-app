@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "framer-motion": "^12.23.12",
+    "lucide-react": "^0.542.0",
     "mongodb": "^6.14.2",
     "next": "15.2.1",
     "qrcode": "^1.5.4",
