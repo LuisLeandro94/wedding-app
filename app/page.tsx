@@ -50,9 +50,18 @@ export default function Home() {
           <Starfield />
           <StarTrail />
           <Image src={Logo} alt="Beige Boho Floral Logo for Custom Florist Business" />
-          <Image src={Line} alt="Beige Boho Floral Logo for Custom Florist Business" className="m-auto mt-15" />
+          <Image src={Line} alt="Beige Boho Floral Logo for Custom Florist Business" className="m-auto mt-4" />
           <CountdownTimer />
-          {userId !== 0 && <button className="m-auto mt-8 rounded-md cursor-pointer before:ease relative h-12 w-40 overflow-hidden border border-(--accent) bg-(--accent) text-(--background) shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-(--accent) hover:before:-translate-x-40" onClick={() => router.push("/rsvp")}>Confirmar presença</button>}</>)}
+          {userId !== 0 && (
+            <div className="mt-4 text-center text-sm sm:text-base justify-center align-middle w-full text-[#C8AB8B]">
+              <a onClick={() => router.push("/rsvp")} className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 mx-4">
+                RSVP
+              </a>
+              <a onClick={() => router.push("/seating")} className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 mx-4">
+                Mesas
+              </a>
+            </div>
+          )}</>)}
       </main>
     </div>
   );

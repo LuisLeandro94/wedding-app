@@ -2,6 +2,7 @@
 import { Guest } from '@/public/guestList';
 import { motion } from 'framer-motion';
 import { Calendar, Check, Info, Star, Utensils, X } from "lucide-react";
+import Link from "next/link";
 import React, { useEffect, useMemo, useState } from 'react';
 import LoadingSpinner from '../_components/loading';
 import Starfield from '../_components/starfield';
@@ -44,6 +45,27 @@ const RSVPPage: React.FC = () => {
                 {loading ? <LoadingSpinner /> : (<>
 
                     <Starfield />
+
+                    {/* Back/Home button (always on top) */}
+                    <div
+                        className="pointer-events-none absolute top-4 left-4 z-[60]"
+                        style={{
+                            paddingTop: "env(safe-area-inset-top)",
+                            paddingLeft: "env(safe-area-inset-left)",
+                        }}
+                    >
+                        <Link
+                            href="/"
+                            className="pointer-events-auto inline-flex items-center gap-2 px-4 py-2 rounded-xl border backdrop-blur-sm shadow-lg transition hover:opacity-90"
+                            style={{
+                                borderColor: "#C8AB8B",
+                                color: "#C8AB8B",
+                                backgroundColor: "rgba(13,16,23,0.6)",
+                            }}
+                        >
+                            <span>⬅ Back</span>
+                        </Link>
+                    </div>
 
                     <main className="relative z-10 max-w-5xl mx-auto px-6 pb-24">
                         <motion.div
