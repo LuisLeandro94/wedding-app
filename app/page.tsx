@@ -52,16 +52,14 @@ export default function Home() {
           <Image src={Logo} alt="Beige Boho Floral Logo for Custom Florist Business" />
           <Image src={Line} alt="Beige Boho Floral Logo for Custom Florist Business" className="m-auto mt-4" />
           <CountdownTimer />
-          {userId !== 0 && (
-            <div className="mt-4 text-center text-sm sm:text-base justify-center align-middle w-full text-[#C8AB8B]">
-              <a onClick={() => router.push("/rsvp")} className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 mx-4">
-                RSVP
-              </a>
-              <a onClick={() => router.push("/seating")} className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 mx-4">
-                Mesas
-              </a>
-            </div>
-          )}</>)}
+          <div className="mt-4 text-center text-sm sm:text-base justify-center align-middle w-full text-[#C8AB8B]">
+            <a onClick={() => router.push("/rsvp")} className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 mx-4">
+              RSVP
+            </a>
+            <a onClick={() => router.push("/seating")} className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 mx-4">
+              Mesas
+            </a>
+          </div></>)}
       </main>
     </div>
   );

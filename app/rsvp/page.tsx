@@ -1,7 +1,7 @@
 'use client'
 import { Guest } from '@/public/guestList';
 import { motion } from 'framer-motion';
-import { Calendar, Check, Info, Star, Utensils, X } from "lucide-react";
+import { Calendar, Check, Info, Star, X } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useMemo, useState } from 'react';
 import LoadingSpinner from '../_components/loading';
@@ -11,8 +11,6 @@ import { COLORS } from '../utils/exports';
 const RSVPPage: React.FC = () => {
     const sand = COLORS.sand;
     const space = COLORS.space;
-    const [loading, setLoading] = useState<boolean>(true);
-
     const [guest, setGuest] = useState<Guest | null>(null);
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
@@ -29,20 +27,10 @@ const RSVPPage: React.FC = () => {
         e.preventDefault();
     };
 
-    useEffect(() => {
-        const user = localStorage.getItem('guest');
-
-        if (user) {
-            setGuest(JSON.parse(user));
-            setLoading(false);
-            console.log("hey");
-        }
-    }, [])
-
     return (
         <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
             <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-                {loading ? <LoadingSpinner /> : (<>
+                <>
 
                     <Starfield />
 
@@ -79,6 +67,7 @@ const RSVPPage: React.FC = () => {
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 md:p-8">
                                 <div>
                                     <h2 className="text-xl md:text-2xl font-medium" style={{ color: sand }}>
+                                        {guest?.name}
                                         Olá, {guest?.name}!
                                     </h2>
                                 </div>
@@ -216,7 +205,7 @@ const RSVPPage: React.FC = () => {
                         </motion.div>
 
                     </main>
-                </>)}
+                </>
             </main>
         </div>
     );
