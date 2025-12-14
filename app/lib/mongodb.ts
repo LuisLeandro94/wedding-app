@@ -1,13 +1,16 @@
 import { MongoClient } from 'mongodb';
 
 const uri = process.env.MONGODB_URI;
-const options = {};
+if (!uri) throw new Error('Please add your Mongo URI to .env.local');
 
-if (!uri) {
-  throw new Error('Please add your Mongo URI to .env.local');
+const client = new MongoClient(uri);
+
+declare global {
+  var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
-const client = new MongoClient(uri, options);
+export const clientPromise =
+  global._mongoClientPromise ?? (global._mongoClientPromise = client.connect());
 
 export async function connectToDatabase() {
   try {
