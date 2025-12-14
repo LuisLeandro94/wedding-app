@@ -1,10 +1,7 @@
 'use client'
 
-// import { Guest, guestList } from "@/public/guestList";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-// import { useState } from "react";
-// import Countdown from "react-countdown";
-import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Line from "../public/Line 1.svg";
@@ -24,6 +21,7 @@ export default function Home() {
     localStorage.getItem("userId") && setUserId(Number(localStorage.getItem("userId")));
 
     setLoading(false);
+
   }, [])
 
   return (
@@ -44,6 +42,9 @@ export default function Home() {
                 <a onClick={() => router.push("/seating")} className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 mx-4">
                   Mesas
                 </a>
+                <button className="px-4 py-2 border gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150" onClick={() => signOut()}>
+                  <span>Logout</span>
+                </button>
               </>
               : <button className="px-4 py-2 border gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150" onClick={() => signIn("google")}>
                 <span>Login with Google</span>

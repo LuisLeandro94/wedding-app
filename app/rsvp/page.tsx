@@ -1,8 +1,12 @@
 'use client'
+
 import { Guest } from '@/public/guestList';
+import { debug } from 'console';
 import { motion } from 'framer-motion';
 import { Calendar, Check, Info, Star, X } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 import LoadingSpinner from '../_components/loading';
 import Starfield from '../_components/starfield';
@@ -11,21 +15,81 @@ import { COLORS } from '../utils/exports';
 const RSVPPage: React.FC = () => {
     const sand = COLORS.sand;
     const space = COLORS.space;
-    const [guest, setGuest] = useState<Guest | null>(null);
-    const [email, setEmail] = useState('');
-    const [message, setMessage] = useState('');
     const [decision, setDecision] = useState<"Accepted" | "Declined" | null>(null);
-    const [menu, setMenu] = useState("carne");
-    const [adults, setAdults] = useState(2);
+    const [adults, setAdults] = useState(0);
     const [kids, setKids] = useState(0);
-    const [allergies, setAllergies] = useState("");
+    const [guests, setGuests] = useState("");
+    const [alergies, setAlergies] = useState("");
     const [note, setNote] = useState("");
+    const { data: session, status } = useSession();
+    const [loading, setLoading] = useState(true);
+    const [rsvp, setRsvp] = useState<any>(null);
+
+    const router = useRouter();
 
     const canSubmit = useMemo(() => decision !== null, [decision]);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleSubmit = async (e?: React.FormEvent | React.MouseEvent) => {
+        e?.preventDefault();
+
+        const payload = {
+            _id: rsvp?._id,
+            guests,
+            email: session?.user?.email,
+            numberOfGuests: adults + kids,
+            adults,
+            kids,
+            alergies,
+            note,
+            willBeAttending: decision === "Accepted",
+        };
+
+        const res = await fetch("/api/rsvp", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        })
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            console.error(data);
+            return;
+        }
+
+        setRsvp(data.rsvp);
+
+        router.push("/");
     };
+
+    useEffect(() => {
+        const loadRsvp = async () => {
+            const res = await fetch("/api/rsvp/me", { cache: 'no-store' });
+            if (!res.ok) {
+                setLoading(false);
+                return;
+            }
+
+            const data = await res.json();
+
+            if (data.exists) {
+                setRsvp(data.rsvp);
+
+                setGuests(data.rsvp.guests ?? []);
+                setAdults(data.rsvp.adults ?? 0);
+                setKids(data.rsvp.kids ?? 0);
+                setAlergies(data.rsvp.alergies ?? "");
+                setNote(data.rsvp.note ?? "");
+                setDecision(data.rsvp.willBeAttending ? "Accepted" : "Declined");
+            }
+
+            setLoading(false);
+        };
+
+        loadRsvp();
+    }, []);
 
     return (
         <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -34,7 +98,6 @@ const RSVPPage: React.FC = () => {
 
                     <Starfield />
 
-                    {/* Back/Home button (always on top) */}
                     <div
                         className="pointer-events-none absolute top-4 left-4 z-[60]"
                         style={{
@@ -67,20 +130,8 @@ const RSVPPage: React.FC = () => {
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 md:p-8">
                                 <div>
                                     <h2 className="text-xl md:text-2xl font-medium" style={{ color: sand }}>
-                                        {guest?.name}
-                                        Olá, {guest?.name}!
+                                        Olá, {session?.user?.name}!
                                     </h2>
-                                </div>
-                                <div className="md:text-right">
-                                    <p
-                                        className="text-sm uppercase tracking-widest flex items-center gap-2 justify-start md:justify-end"
-                                        style={{ color: sand }}
-                                    >
-                                        <Star size={16} /> Mesa
-                                    </p>
-                                    <p className="text-lg md:text-xl font-semibold" style={{ color: sand }}>
-                                        {guest?.tableName || "A designar"}
-                                    </p>
                                 </div>
                             </div>
 
@@ -154,11 +205,24 @@ const RSVPPage: React.FC = () => {
 
                                     <label className="flex flex-col gap-2 md:col-span-2">
                                         <span className="text-xs uppercase tracking-widest" style={{ color: sand }}>
+                                            Nome dos convidados
+                                        </span>
+                                        <input
+                                            value={guests}
+                                            onChange={(e) => setGuests(e.target.value)}
+
+                                            className="rounded-xl px-4 py-3 bg-transparent border placeholder-opacity-60 outline-none"
+                                            style={{ borderColor: sand, color: sand, caretColor: sand }}
+                                        />
+                                    </label>
+
+                                    <label className="flex flex-col gap-2 md:col-span-2">
+                                        <span className="text-xs uppercase tracking-widest" style={{ color: sand }}>
                                             Alergias / Intolerâncias
                                         </span>
                                         <input
-                                            value={allergies}
-                                            onChange={(e) => setAllergies(e.target.value)}
+                                            value={alergies}
+                                            onChange={(e) => setAlergies(e.target.value)}
                                             placeholder="Ex.: glúten, lactose, frutos secos"
                                             className="rounded-xl px-4 py-3 bg-transparent border placeholder-opacity-60 outline-none"
                                             style={{ borderColor: sand, color: sand, caretColor: sand }}
@@ -193,10 +257,7 @@ const RSVPPage: React.FC = () => {
                                         }`}
                                     style={{ backgroundColor: sand, color: space }}
                                     onClick={() =>
-                                        alert(
-                                            `Enviado! Decisão: ${decision}\nMenu: ${menu}\nAdultos: ${adults}, Crianças: ${kids}\nAlergias: ${allergies || "(nenhuma)"
-                                            }`
-                                        )
+                                        handleSubmit()
                                     }
                                 >
                                     Confirmar
