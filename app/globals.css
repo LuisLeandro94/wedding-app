@@ -36,6 +36,8 @@ body {
   -ms-flex-pack: distribute;
   justify-content: center;
   margin: auto;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .countdown__card {
@@ -45,18 +47,24 @@ body {
 }
 
 .countdown__card__number {
-  font-size: 4rem;
+  font-size: clamp(2rem, 8vw, 4rem);
   font-weight: 700;
   margin: 0;
   line-height: 200%;
 }
 
 .countdown__card__label {
-  font-size: 1.5rem;
+  font-size: clamp(0.875rem, 3vw, 1.5rem);
   font-weight: 300;
   margin: 0;
   line-height: 0;
   text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .countdown__card {
+    margin: 0 0.5rem;
+  }
 }
 
 /* Mouse */
