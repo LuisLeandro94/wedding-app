@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "carlaeluis.com" }],
+      "destination": "https://www.carlaeluis.com/$1",
+      "permanent": true
+    }
+  ]
+}
