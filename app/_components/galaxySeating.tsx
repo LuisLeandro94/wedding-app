@@ -209,7 +209,7 @@ export default function GalaxySeatingR3F({ tables }: { tables: Table[] }) {
 
             {/* Back/Home button (always on top) */}
             <div
-                className="pointer-events-none absolute top-4 left-4 z-[60]"
+                className="pointer-events-none absolute top-4 left-4 z-60 hidden md:block"
                 style={{
                     paddingTop: "env(safe-area-inset-top)",
                     paddingLeft: "env(safe-area-inset-left)",
