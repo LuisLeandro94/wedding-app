@@ -1,5 +1,4 @@
 import { connectToDatabase } from '@/app/lib/mongodb';
-import { ObjectId } from 'mongodb';
 
 export async function POST(req: Request) {
   try {

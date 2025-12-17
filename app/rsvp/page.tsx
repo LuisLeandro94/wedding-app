@@ -1,9 +1,7 @@
 'use client'
 
-import { Guest } from '@/public/guestList';
-import { debug } from 'console';
 import { motion } from 'framer-motion';
-import { Calendar, Check, Info, Star, X } from "lucide-react";
+import { Calendar, Check, Info, X } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
@@ -11,6 +9,18 @@ import React, { useEffect, useMemo, useState } from 'react';
 import LoadingSpinner from '../_components/loading';
 import Starfield from '../_components/starfield';
 import { COLORS } from '../utils/exports';
+
+interface RSVP {
+    _id?: string;
+    guests?: string;
+    email?: string;
+    numberOfGuests?: number;
+    adults?: number;
+    kids?: number;
+    alergies?: string;
+    note?: string;
+    willBeAttending?: boolean;
+}
 
 const RSVPPage: React.FC = () => {
     const sand = COLORS.sand;
@@ -21,9 +31,9 @@ const RSVPPage: React.FC = () => {
     const [guests, setGuests] = useState("");
     const [alergies, setAlergies] = useState("");
     const [note, setNote] = useState("");
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
     const [loading, setLoading] = useState(true);
-    const [rsvp, setRsvp] = useState<any>(null);
+    const [rsvp, setRsvp] = useState<RSVP | null>(null);
 
     const router = useRouter();
 

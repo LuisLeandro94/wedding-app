@@ -9,14 +9,6 @@ import { COLORS } from '../utils/exports';
 const WeddingInfoPage: React.FC = () => {
     const sand = COLORS.sand;
     const space = COLORS.space;
-    // ✅ Replace these constants with your real data
-    const couple = "Luís & Carla";
-    const dateLabel = "Sábado, 4 de Julho de 2026";
-    const cityLabel = "Guimarães";
-
-    // Example URLs (replace)
-    const churchMapsUrl = "https://maps.google.com/?q=Igreja+de+S%C3%A3o+D%C3%A2maso+Guimar%C3%A3es";
-    const venueMapsUrl = "https://maps.google.com/?q=Quinta+da+Felgueira+Vizela";
 
     return (
         <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">

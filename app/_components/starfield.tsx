@@ -1,14 +1,16 @@
+
+
 import { useEffect, useRef } from "react";
 
 const Starfield: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    let stars: { x: number; y: number; size: number; speed: number; opacity: number; baseOpacity: number; layer: number }[] = [];
     const layerCount = 3;
-    const speeds = [0.05, 0.1, 0.2];
     const baseStarCount = 50;
-    let shootingStar: { x: number; y: number; length: number; speed: number; opacity: number; dx: number; dy: number } | null = null;
 
     useEffect(() => {
+        const speeds = [0.05, 0.1, 0.2];
+        let stars: { x: number; y: number; size: number; speed: number; opacity: number; baseOpacity: number; layer: number }[] = [];
+        let shootingStar: { x: number; y: number; length: number; speed: number; opacity: number; dx: number; dy: number } | null = null;
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext("2d");

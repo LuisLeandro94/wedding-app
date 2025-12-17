@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
 // GalaxySeatingR3F — immersive full screen with fade-in, centered focus, hover halo, upright labels, large popover guest list
@@ -56,7 +58,7 @@ function Galaxy({
     onPointerOut: () => void;
     onClick: () => void;
 }) {
-    const group = useRef<any>();
+    const group = useRef<any>(null);
     const armCount = Math.min(5, Math.max(2, Math.round((table.seats ?? table.guests.length) / 8)));
     const starCount = Math.max(table.seats ?? table.guests.length, 140);
     const radius = Math.max(2.8, Math.min(6.0, 2 + (starCount / 140) * 4.0));
@@ -95,15 +97,15 @@ function Galaxy({
             )}
 
             {/* core (non-interactive) */}
-            <mesh raycast={null}>
+            <mesh raycast={undefined}>
                 <sphereGeometry args={[0.12, 16, 16]} />
                 <meshBasicMaterial color={COLORS.sand} />
             </mesh>
 
             {/* stars (non-interactive) */}
-            <points raycast={null}>
+            <points raycast={undefined}>
                 <bufferGeometry attach="geometry">
-                    <bufferAttribute attach="attributes-position" count={positions.length / 3} array={positions} itemSize={3} />
+                    <bufferAttribute attach="attributes-position" args={[positions, 3]} />
                 </bufferGeometry>
                 <pointsMaterial
                     attach="material"
@@ -137,7 +139,6 @@ function CameraFocus({ activePos, controlsRef }: { activePos: [number, number, n
         camera.position.lerp(new Vector3(activePos[0], activePos[1] + 6, activePos[2] + 12), 0.06);
         camera.lookAt(target.current);
         if (controlsRef.current) {
-            // @ts-ignore
             controlsRef.current.target.lerp(target.current, 0.08);
             controlsRef.current.update();
         }
