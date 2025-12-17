@@ -41,11 +41,21 @@ export default function Home() {
                     Fotos
                   </a>
                 </div>
-                <button className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150" onClick={() => signOut()}>
+                <button className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-xl border backdrop-blur-sm shadow-lg transition hover:opacity-90 mt-6"
+                  style={{
+                    borderColor: "#C8AB8B",
+                    color: "#C8AB8B",
+                    backgroundColor: "rgba(13,16,23,0.6)",
+                  }} onClick={() => signOut()}>
                   <span>Logout</span>
                 </button>
               </>
-              : <button className="px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150" onClick={() => signIn("google")}>
+              : <button className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 rounded-xl border backdrop-blur-sm shadow-lg transition hover:opacity-90 mt-6"
+                style={{
+                  borderColor: "#C8AB8B",
+                  color: "#C8AB8B",
+                  backgroundColor: "rgba(13,16,23,0.6)",
+                }} onClick={() => signIn("google")}>
                 <span>Login with Google</span>
               </button>}
           </div>
