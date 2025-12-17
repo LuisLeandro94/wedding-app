@@ -129,7 +129,7 @@ const RSVPPage: React.FC = () => {
                             </Link>
                         </div>
 
-                        <main className="relative z-10 max-w-5xl mx-auto px-6 pb-24">
+                        <main className="relative z-10 max-w-5xl mx-auto px-6  max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-hide">
                             <motion.div
                                 initial={{ opacity: 0, y: 16 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -264,7 +264,7 @@ const RSVPPage: React.FC = () => {
                                     </p>
                                     <button
                                         disabled={!canSubmit}
-                                        className={`rounded-2xl px-6 py-3 font-medium transition shadow-lg ${canSubmit ? "hover:-translate-y-px cursor-pointer" : "opacity-60 cursor-not-allowed"
+                                        className={`rounded-2xl px-6 py-3 font-medium transition shadow-lg mx-auto md:mx-0 ${canSubmit ? "hover:-translate-y-px cursor-pointer" : "opacity-60 cursor-not-allowed"
                                             }`}
                                         style={{ backgroundColor: sand, color: space }}
                                         onClick={() =>
