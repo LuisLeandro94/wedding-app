@@ -37,7 +37,7 @@ const WeddingInfoPage: React.FC = () => {
                     </Link>
                 </div>
 
-                <main className="relative z-10 w-1/2 mx-auto px-6 pb-24">
+                <main className="relative z-10 w-full md:w-3/4 lg:w-1/2 mx-auto px-4 md:px-6 pb-24">
                     <motion.div
                         initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
