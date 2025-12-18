@@ -37,7 +37,11 @@ const RSVPPage: React.FC = () => {
 
     const router = useRouter();
 
-    const canSubmit = useMemo(() => decision !== null, [decision]);
+    const canSubmit = useMemo(() => {
+        return decision !== null &&
+            (adults > 0 || kids > 0) &&
+            guests.trim() !== "";
+    }, [decision, adults, kids, guests]);
 
     const handleSubmit = async (e?: React.FormEvent | React.MouseEvent) => {
         e?.preventDefault();
