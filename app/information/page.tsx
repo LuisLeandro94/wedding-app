@@ -9,6 +9,7 @@ import { COLORS } from '../utils/exports';
 const WeddingInfoPage: React.FC = () => {
     const sand = COLORS.sand;
     const space = COLORS.space;
+    const white = COLORS.white;
 
     return (
         <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -36,7 +37,7 @@ const WeddingInfoPage: React.FC = () => {
                     </Link>
                 </div>
 
-                <main className="relative z-10 w-full md:w-3/4 lg:w-1/2 mx-auto px-4 md:px-6 pb-24">
+                <main className="relative z-10 w-1/2 mx-auto px-6 pb-24">
                     <motion.div
                         initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -81,12 +82,12 @@ const WeddingInfoPage: React.FC = () => {
                                             <h4 className='text-xl md:text-2xl' style={{ color: sand }}>
                                                 Cerimónia
                                             </h4>
-                                            <div className='flex flex-col gap-0'>
+                                            <div className='flex flex-col gap-0' style={{ color: white }}>
                                                 <p className='text-l md:text-xl font-medium'>Igreja de Nespereira</p>
                                                 <p className=''>Rua P. Bernardino Ribeiro Fernandes</p>
                                                 <p>Guimarães</p>
                                             </div>
-                                            <p>Hora: 14:00</p>
+                                            <p style={{ color: sand }}>Hora: 14:00</p>
 
                                             <Link
                                                 href="https://maps.app.goo.gl/Cd2AsYDpV2NwKkdBA"
@@ -114,12 +115,12 @@ const WeddingInfoPage: React.FC = () => {
                                             <h4 className='text-xl md:text-2xl' style={{ color: sand }}>
                                                 Copo de água
                                             </h4>
-                                            <div className='flex flex-col gap-0'>
+                                            <div className='flex flex-col gap-0' style={{ color: white }}>
                                                 <p className='text-l md:text-xl font-medium'>Quinta das Carpas</p>
                                                 <p className=''>Rua 1 de Maio</p>
                                                 <p>Brito</p>
                                             </div>
-                                            <p className='text-sm'>Estacionamento disponível no local</p>
+                                            <p className='text-sm' style={{ color: sand }}>Estacionamento disponível no local</p>
                                             <Link
                                                 href="https://maps.app.goo.gl/4PtfXZ9oNRepMsdy5"
                                                 target="_blank"
@@ -147,13 +148,13 @@ const WeddingInfoPage: React.FC = () => {
                                         <h4 className='text-xl md:text-2xl' style={{ color: sand }}>
                                             Dress code
                                         </h4>
-                                        <p className=''>Para manter a harmonia visual do dia, agradecemos que evite usar as cores reservadas para os padrinhos e madrinhas.</p>
-                                        <div className="mt-4 flex gap-3 justify-center mb-4">
+                                        <p style={{ color: white }}>Para manter a harmonia visual do dia, agradecemos que evite usar as cores reservadas para os padrinhos e madrinhas.</p>
+                                        <div className="mt-4 flex gap-3 justify-center mb-4" style={{ color: sand }}>
                                             <ColorSwatch background='#c8b6a6' label="Bege" />
                                             <ColorSwatch background='#202A44' label="Azul marinho" />
                                             <ColorSwatch background='#8E6385' label="Roxo" />
                                         </div>
-                                        <p className='text-sm'>Obrigado pela compreensão 🤍</p>
+                                        <p className='text-sm' style={{ color: sand }}>Obrigado pela compreensão 🤍</p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -171,7 +172,7 @@ const WeddingInfoPage: React.FC = () => {
                                         <h4 className='text-xl md:text-2xl' style={{ color: sand }}>
                                             Confirmações
                                         </h4>
-                                        <p className=''>Relembramos por favor, para confirmares a tua presença até dia 31 de Maio de 2026</p>
+                                        <p style={{ color: white }}>Relembramos por favor, para confirmares a tua presença até dia 31 de Maio de 2026</p>
                                         <Link
                                             href="/rsvp"
                                             className={`cursor-pointer rounded-2xl px-6 py-3 font-medium transition shadow-lg mt-6 inline-block text-center`}
@@ -196,7 +197,7 @@ const WeddingInfoPage: React.FC = () => {
                                         <h4 className='text-xl md:text-2xl' style={{ color: sand }}>
                                             Programa
                                         </h4>
-                                        <div className="flex flex-col gap-4 mt-4">
+                                        <div className="flex flex-col gap-4 mt-4" style={{ color: white }}>
                                             <TimelineItem time="14:00" event="Cerimónia" />
                                         </div>
 
