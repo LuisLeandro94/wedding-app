@@ -87,7 +87,7 @@ const WeddingInfoPage: React.FC = () => {
                                                 <p className=''>Rua P. Bernardino Ribeiro Fernandes</p>
                                                 <p>Guimarães</p>
                                             </div>
-                                            <p style={{ color: sand }}>Hora: 14:00</p>
+                                            <p style={{ color: sand }}>04 de Julho de 2026, 14:00</p>
 
                                             <Link
                                                 href="https://maps.app.goo.gl/Cd2AsYDpV2NwKkdBA"
@@ -149,10 +149,20 @@ const WeddingInfoPage: React.FC = () => {
                                             Dress code
                                         </h4>
                                         <p style={{ color: white }}>Para manter a harmonia visual do dia, agradecemos que evite usar as cores reservadas para os padrinhos e madrinhas.</p>
-                                        <div className="mt-4 flex gap-3 justify-center mb-4" style={{ color: sand }}>
-                                            <ColorSwatch background='#c8b6a6' label="Bege" />
-                                            <ColorSwatch background='#202A44' label="Azul marinho" />
-                                            <ColorSwatch background='#8E6385' label="Roxo" />
+                                        <div className='w-full flex flex-row mt-4 gap-3 mb-4'>
+                                            <div className='w-1/2 flex flex-col gap-3 justify-center' style={{ color: sand }}>
+                                                Mulheres
+                                                <div className='flex gap-3 justify-center'>
+                                                    <ColorSwatch background='#202A44' label="Azul marinho" />
+                                                    <ColorSwatch background='#8E6385' label="Roxo" />
+                                                </div>
+                                            </div>
+                                            <div className='w-1/2 flex flex-col gap-3 justify-center' style={{ color: sand }}>
+                                                Homens
+                                                <div className='flex gap-3 justify-center'>
+                                                    <ColorSwatch background='#c8b6a6' label="Bege" />
+                                                </div>
+                                            </div>
                                         </div>
                                         <p className='text-sm' style={{ color: sand }}>Obrigado pela compreensão 🤍</p>
                                     </div>
@@ -228,7 +238,7 @@ const WeddingInfoPage: React.FC = () => {
 
 function ColorSwatch({ label, background }: { label: string, background: string }) {
     return (
-        <div className="flex items-center gap-3 flex-col">
+        <div className="flex items-center gap-3 flex-col w-full">
             <div
                 className="h-8 w-8 rounded-full border shadow-sm"
                 style={{
