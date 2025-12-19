@@ -1,3 +1,7 @@
+"use client";
+
+import { useSession } from "next-auth/react";
+import { useRouter } from 'next/navigation';
 import GalaxySeatingR3F from "../_components/galaxySeating";
 
 const tables = [
@@ -8,6 +12,15 @@ const tables = [
 ];
 
 export default function Page() {
+    const { data: session } = useSession();
+
+    const router = useRouter();
+
+    if (!session) {
+        router.push("/");
+        return null;
+    }
+
     return (
         <main className="min-h-screen flex items-center justify-center p-6" style={{ background: "#0D1017" }}>
             <div className="w-full max-w-6xl">

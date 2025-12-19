@@ -79,6 +79,10 @@ const RSVPPage: React.FC = () => {
     };
 
     useEffect(() => {
+        if (!session) {
+            router.push("/");
+        }
+
         const loadRsvp = async () => {
             const res = await fetch("/api/rsvp/me", { cache: 'no-store' });
             if (!res.ok) {

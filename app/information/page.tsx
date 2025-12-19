@@ -1,12 +1,24 @@
 "use client";
 
 import { motion } from 'framer-motion';
+import { useSession } from 'next-auth/react';
 import Link from "next/link";
-import React from "react";
+import { useRouter } from 'next/navigation';
+import React, { useEffect } from "react";
 import Starfield from "../_components/starfield";
 import { COLORS } from '../utils/exports';
 
 const WeddingInfoPage: React.FC = () => {
+    const { data: session } = useSession();
+
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!session) {
+            router.push('/');
+        }
+    }, [session, router]);
+
     const sand = COLORS.sand;
     const space = COLORS.space;
     const white = COLORS.white;
