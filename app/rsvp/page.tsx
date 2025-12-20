@@ -198,10 +198,10 @@ const RSVPPage: React.FC = () => {
                                             </span>
                                             <input
                                                 type="number"
-                                                min={1}
+                                                min={0}
                                                 max={6}
                                                 value={adults}
-                                                onChange={(e) => setAdults(parseInt(e.target.value || "1", 10))}
+                                                onChange={(e) => setAdults(e.target.value === "" ? 0 : parseInt(e.target.value, 10))}
                                                 className="rounded-xl px-4 py-3 bg-transparent border outline-none"
                                                 style={{ borderColor: sand, color: sand }}
                                             />
