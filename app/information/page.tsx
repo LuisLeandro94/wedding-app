@@ -160,7 +160,7 @@ const WeddingInfoPage: React.FC = () => {
                                         <h4 className='text-xl md:text-2xl' style={{ color: sand }}>
                                             Dress code
                                         </h4>
-                                        <p style={{ color: white }}>Para manter a harmonia visual do dia, agradecemos que evite usar as cores reservadas para os padrinhos e madrinhas.</p>
+                                        <p style={{ color: white }}>Para manter a harmonia visual do dia, agradecemos que <u>evite</u> usar as cores reservadas para os padrinhos e madrinhas.</p>
                                         <div className='w-full flex flex-row mt-4 gap-3 mb-4'>
                                             <div className='w-1/2 flex flex-col gap-3 justify-center' style={{ color: sand }}>
                                                 Mulheres
@@ -258,7 +258,7 @@ function ColorSwatch({ label, background }: { label: string, background: string 
                     borderColor: COLORS.sand,
                 }}
             />
-            <div className="text-sm" style={{ color: "var(--foreground)" }}>
+            <div className="text-sm" style={{ color: COLORS.white }}>
                 {label}
             </div>
         </div>
