@@ -268,7 +268,7 @@ const RSVPPage: React.FC = () => {
                                 <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-6 md:p-8">
                                     <p className="text-xs md:text-sm" style={{ color: "#d7c7b3" }}>
                                         <Calendar className="inline-block mr-2" size={14} />
-                                        Data limite de RSVP: <span style={{ color: sand }} className="font-medium">31 de Maio, 2026</span>
+                                        Data limite de confirmação: <span style={{ color: sand }} className="font-medium">31 de Maio, 2026</span>
                                     </p>
                                     <button
                                         disabled={!canSubmit}

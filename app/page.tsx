@@ -29,7 +29,7 @@ export default function Home() {
               <>
                 <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-4">
                   <a onClick={() => router.push("/rsvp")} className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 px-3 sm:px-4 whitespace-nowrap">
-                    RSVP
+                    Confirmações
                   </a>
                   <a onClick={() => router.push("/information")} className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 px-3 sm:px-4 whitespace-nowrap">
                     Informações
