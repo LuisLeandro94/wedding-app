@@ -158,21 +158,16 @@ const WeddingInfoPage: React.FC = () => {
                                 <div className="flex flex-col justify-between gap-4 p-6 md:p-8 h-full text-center">
                                     <div className='flex flex-col gap-2'>
                                         <h4 className='text-xl md:text-2xl' style={{ color: sand }}>
-                                            Cores a evitar
+                                            Cores proibidas
                                         </h4>
                                         <p style={{ color: white }}>Para manter a harmonia visual do dia, agradecemos que <u>evite</u> usar as cores reservadas para os padrinhos e madrinhas.</p>
                                         <div className='w-full flex flex-col items-center md:flex-row mt-4 gap-3 mb-4'>
-                                            <div className='w-1/2 flex flex-col gap-3 justify-center' style={{ color: sand }}>
-                                                Proibido
-                                                <div className='flex gap-3 justify-center'>
-                                                    <ColorSwatch background='#ffffff' label="Branco" />
-                                                </div>
-                                            </div>
                                             <div className='w-1/2 flex flex-col gap-3 justify-center' style={{ color: sand }}>
                                                 Mulheres
                                                 <div className='flex gap-3 justify-center'>
                                                     <ColorSwatch background='#202A44' label="Azul marinho" />
                                                     <ColorSwatch background='#8E6385' label="Lilás" />
+                                                    <ColorSwatch background='#ffffff' label="Branco" />
                                                 </div>
                                             </div>
                                             <div className='w-1/2 flex flex-col gap-3 justify-center' style={{ color: sand }}>
