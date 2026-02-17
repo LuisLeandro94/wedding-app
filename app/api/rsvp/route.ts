@@ -45,9 +45,18 @@ export async function POST(req: Request) {
       }
 
       const previous = await rsvpCollection.findOne({ email });
+
+      const prevValues: MeaningfulRsvpFields | null = previous
+        ? {
+            numberOfGuests: previous.numberOfGuests,
+            willBeAttending: previous.willBeAttending,
+            adults: previous.adults,
+            kids: previous.kids,
+          }
+        : null;
       const nextValues = { numberOfGuests, willBeAttending, adults, kids };
 
-      const meaningful = hasMeaningfulRsvpChanges(previous, nextValues);
+      const meaningful = hasMeaningfulRsvpChanges(prevValues, nextValues);
 
       if (email && meaningful) {
         try {
@@ -119,9 +128,19 @@ export async function POST(req: Request) {
   }
 }
 
-function hasMeaningfulRsvpChanges(prev: any, next: any) {
-  const normNum = (v: any) => (v === undefined || v === null ? 0 : Number(v));
-  const normBool = (v: any) => Boolean(v);
+type MeaningfulRsvpFields = {
+  numberOfGuests?: number | null;
+  willBeAttending?: boolean | null;
+  adults?: number | null;
+  kids?: number | null;
+};
+
+function hasMeaningfulRsvpChanges(
+  prev: MeaningfulRsvpFields | null | undefined,
+  next: MeaningfulRsvpFields | null | undefined,
+) {
+  const normNum = (v?: number | null) => (v === null ? 0 : Number(v));
+  const normBool = (v?: boolean | null) => Boolean(v);
 
   return (
     normNum(prev?.numberOfGuests) !== normNum(next?.numberOfGuests) ||
