@@ -26,6 +26,7 @@
     "react-countdown": "^2.3.6",
     "react-dom": "^19.2.3",
     "react-switch": "^7.1.0",
+    "resend": "^6.9.2",
     "three": "^0.180.0"
   },
   "devDependencies": {
