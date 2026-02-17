@@ -1,3 +1,4 @@
+import { sendRsvpConfirmationEmail } from '@/app/lib/email';
 import { connectToDatabase } from '@/app/lib/mongodb';
 
 export async function POST(req: Request) {
@@ -34,7 +35,7 @@ export async function POST(req: Request) {
             updatedAt: new Date(),
           },
         },
-        { returnDocument: 'after' }
+        { returnDocument: 'after' },
       );
 
       if (!result) {
@@ -43,11 +44,32 @@ export async function POST(req: Request) {
         });
       }
 
+      const previous = await rsvpCollection.findOne({ email });
+      const nextValues = { numberOfGuests, willBeAttending, adults, kids };
+
+      const meaningful = hasMeaningfulRsvpChanges(previous, nextValues);
+
+      if (email && meaningful) {
+        try {
+          await sendRsvpConfirmationEmail({
+            to: email,
+            guests,
+            willBeAttending,
+            numberOfGuests,
+            adults,
+            kids,
+            note,
+          });
+        } catch (err) {
+          console.error('RSVP email failed:', err);
+        }
+      }
+
       return new Response(
         JSON.stringify({ success: true, rsvp: result.value }),
         {
           status: 200,
-        }
+        },
       );
     }
 
@@ -67,6 +89,22 @@ export async function POST(req: Request) {
 
     const created = await rsvpCollection.findOne({ _id: insert.insertedId });
 
+    if (email) {
+      try {
+        await sendRsvpConfirmationEmail({
+          to: email,
+          guests,
+          willBeAttending,
+          numberOfGuests,
+          adults,
+          kids,
+          note,
+        });
+      } catch (err) {
+        console.error('RSVP email failed:', err);
+      }
+    }
+
     return new Response(JSON.stringify({ success: true, rsvp: created }), {
       status: 201,
     });
@@ -76,7 +114,19 @@ export async function POST(req: Request) {
         error: 'Failed to save RSVP',
         details: (error as Error).message,
       }),
-      { status: 500 }
+      { status: 500 },
     );
   }
+}
+
+function hasMeaningfulRsvpChanges(prev: any, next: any) {
+  const normNum = (v: any) => (v === undefined || v === null ? 0 : Number(v));
+  const normBool = (v: any) => Boolean(v);
+
+  return (
+    normNum(prev?.numberOfGuests) !== normNum(next?.numberOfGuests) ||
+    normBool(prev?.willBeAttending) !== normBool(next?.willBeAttending) ||
+    normNum(prev?.adults) !== normNum(next?.adults) ||
+    normNum(prev?.kids) !== normNum(next?.kids)
+  );
 }
