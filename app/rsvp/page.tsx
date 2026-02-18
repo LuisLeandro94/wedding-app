@@ -26,8 +26,8 @@ const RSVPPage: React.FC = () => {
     const sand = COLORS.sand;
     const space = COLORS.space;
     const [decision, setDecision] = useState<"Accepted" | "Declined" | null>(null);
-    const [adults, setAdults] = useState(0);
-    const [kids, setKids] = useState(0);
+    const [adults, setAdults] = useState<number | "">(0);
+    const [kids, setKids] = useState<number | "">(0);
     const [guests, setGuests] = useState("");
     const [alergies, setAlergies] = useState("");
     const [note, setNote] = useState("");
@@ -38,19 +38,24 @@ const RSVPPage: React.FC = () => {
     const router = useRouter();
 
     const canSubmit = useMemo(() => {
+        const adultsNum = adults === "" ? 0 : adults;
+        const kidsNum = kids === "" ? 0 : kids;
+
         return decision !== null &&
-            (adults > 0 || kids > 0) &&
+            (adultsNum > 0 || kidsNum > 0) &&
             guests.trim() !== "";
     }, [decision, adults, kids, guests]);
 
     const handleSubmit = async (e?: React.FormEvent | React.MouseEvent) => {
         e?.preventDefault();
+        const adultsNum = adults === "" ? 0 : adults;
+        const kidsNum = kids === "" ? 0 : kids;
 
         const payload = {
             _id: rsvp?._id,
             guests,
             email: session?.user?.email,
-            numberOfGuests: adults + kids,
+            numberOfGuests: adultsNum + kidsNum,
             adults,
             kids,
             alergies,
@@ -201,7 +206,13 @@ const RSVPPage: React.FC = () => {
                                                 min={0}
                                                 max={6}
                                                 value={adults}
-                                                onChange={(e) => setAdults(e.target.value === "" ? 0 : parseInt(e.target.value, 10))}
+                                                onChange={(e) => {
+                                                    const val = e.target.value;
+                                                    setAdults(val === "" ? "" : parseInt(val, 10));
+                                                }}
+                                                onBlur={() => {
+                                                    if (adults === "") setAdults(0);
+                                                }}
                                                 className="rounded-xl px-4 py-3 bg-transparent border outline-none"
                                                 style={{ borderColor: sand, color: sand }}
                                             />
@@ -216,7 +227,13 @@ const RSVPPage: React.FC = () => {
                                                 min={0}
                                                 max={6}
                                                 value={kids}
-                                                onChange={(e) => setKids(parseInt(e.target.value || "0", 10))}
+                                                onChange={(e) => {
+                                                    const val = e.target.value;
+                                                    setKids(val === "" ? "" : parseInt(val, 10));
+                                                }}
+                                                onBlur={() => {
+                                                    if (kids === "") setKids(0);
+                                                }}
                                                 className="rounded-xl px-4 py-3 bg-transparent border outline-none"
                                                 style={{ borderColor: sand, color: sand }}
                                             />
