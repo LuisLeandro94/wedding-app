@@ -185,7 +185,7 @@ const RSVPPage: React.FC = () => {
                                             </button>
                                         </div>
                                         <p className="text-xs mt-3" style={{ color: "#d7c7b3" }}>
-                                            Podes alterar a decisão até à data limite.
+                                            Podes alterar a decisão até dia 31 de Maio.
                                         </p>
                                     </div>
 
