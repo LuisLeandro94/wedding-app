@@ -20,7 +20,6 @@ const WeddingProtocolPage: React.FC = () => {
     }, [session, router]);
 
     const sand = COLORS.sand;
-    const space = COLORS.space;
     const white = COLORS.white;
 
     return (
