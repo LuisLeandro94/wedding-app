@@ -8,7 +8,7 @@ import { COLORS } from "../utils/exports";
 
 type Item = {
   title: string;
-  content: React.ReactNode;
+  content: string;
 }
 
 const items: Item[] = [
