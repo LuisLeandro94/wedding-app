@@ -12,6 +12,11 @@ type SendRsvpEmailArgs = {
   note?: string;
 };
 
+type SendRequestEmail = {
+  description: string;
+  email: string;
+};
+
 export async function sendRsvpConfirmationEmail(args: SendRsvpEmailArgs) {
   const { to, willBeAttending, adults, kids, note } = args;
 
@@ -52,6 +57,28 @@ export async function sendRsvpConfirmationEmail(args: SendRsvpEmailArgs) {
   return resend.emails.send({
     from: process.env.EMAIL_FROM!,
     to,
+    subject,
+    html,
+  });
+}
+
+export async function sendRequestEmail(args: SendRequestEmail) {
+  const { description, email } = args;
+
+  const subject = 'Protocolo - Pedido de alteração';
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.5">
+        <h2>Pedido de alteração de protocolo feito: ${email}</h2>
+        <p>
+            ${description}
+        </p>
+    </div>
+    `;
+
+  return resend.emails.send({
+    from: process.env.EMAIL_FROM!,
+    to: process.env.EMAIL_TO!,
     subject,
     html,
   });
