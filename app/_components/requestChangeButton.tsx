@@ -50,20 +50,25 @@ export default function RequestChangeButton({ email }: Props) {
     return (
         <>
             <div
-                className="pointer-events-none absolute bottom-4 right-4 z-60 hidden md:block"
+                className="pointer-events-none fixed bottom-4 right-4 z-[60]"
                 style={{
                     paddingTop: 'env(safe-area-inset-top)',
                     paddingLeft: 'env(safe-area-inset-left)',
+                    paddingRight: 'env(safe-area-inset-right)',
+                    paddingBottom: 'env(safe-area-inset-bottom)',
                 }}
             >
                 <button
                     type="button"
                     onClick={() => setIsOpen(true)}
-                    className="pointer-events-auto inline-flex items-center gap-2 rounded-xl px-4 py-2 transition hover:opacity-90"
+                    className="pointer-events-auto inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#0D1017] shadow-lg shadow-black/30 ring-1 ring-[#C8AB8B]/30 transition hover:opacity-90 sm:h-auto sm:w-auto sm:gap-2 sm:rounded-xl sm:px-4 sm:py-2"
                     style={{ color: '#C8AB8B' }}
                     aria-label="Abrir pedido de alteração"
                 >
-                    <PlusCircle className="h-8 w-8" />
+                    <PlusCircle className="h-6 w-6 sm:h-8 sm:w-8" />
+                    <span className="hidden sm:inline text-sm font-medium">
+                        Pedido
+                    </span>
                 </button>
             </div>
 
@@ -73,18 +78,18 @@ export default function RequestChangeButton({ email }: Props) {
                     onClick={closeModal}
                 >
                     <div
-                        className="w-full max-w-lg rounded-2xl bg-[#0D1017] p-6 shadow-xl"
+                        className="w-full max-w-lg rounded-2xl bg-[#0D1017] p-4 sm:p-6 shadow-xl"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="mb-4 flex items-center justify-between">
-                            <h2 className="text-lg font-semibold text-white">
+                        <div className="mb-4 flex items-center justify-between gap-3">
+                            <h2 className="text-base sm:text-lg font-semibold text-white">
                                 Pedido de alteração
                             </h2>
 
                             <button
                                 type="button"
                                 onClick={closeModal}
-                                className="rounded-md p-1 text-white/70 transition hover:text-white"
+                                className="shrink-0 rounded-md p-1 text-white/70 transition hover:text-white"
                                 aria-label="Fechar modal"
                             >
                                 <X className="h-5 w-5" />
@@ -111,12 +116,12 @@ export default function RequestChangeButton({ email }: Props) {
                             <p className="mt-3 text-sm text-green-400">{success}</p>
                         )}
 
-                        <div className="mt-5 flex justify-end gap-3">
+                        <div className="mt-5 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
                             <button
                                 type="button"
                                 onClick={closeModal}
                                 disabled={isPending}
-                                className="rounded-xl border border-white/10 px-4 py-2 text-white transition hover:bg-white/5 disabled:opacity-50"
+                                className="w-full rounded-xl border border-white/10 px-4 py-2 text-white transition hover:bg-white/5 disabled:opacity-50 sm:w-auto"
                             >
                                 Cancelar
                             </button>
@@ -125,7 +130,7 @@ export default function RequestChangeButton({ email }: Props) {
                                 type="button"
                                 onClick={handleSubmit}
                                 disabled={isPending || !description.trim()}
-                                className="rounded-xl px-4 py-2 font-medium text-black transition disabled:opacity-50"
+                                className="w-full rounded-xl px-4 py-2 font-medium text-black transition disabled:opacity-50 sm:w-auto"
                                 style={{ backgroundColor: '#C8AB8B' }}
                             >
                                 {isPending ? 'A enviar...' : 'Submeter'}

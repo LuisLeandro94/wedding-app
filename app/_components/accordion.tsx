@@ -1,9 +1,11 @@
 "use client";
 
+import { request } from "http";
 import {
   ChevronDown,
 } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { blob } from "stream/consumers";
 import { COLORS } from "../utils/exports";
 
 type Item = {
@@ -446,28 +448,70 @@ const items: Item[] = [
 
 export default function Accordion() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const handleToggle = (index: number) => {
+    const isOpening = openIndex !== index;
+    setOpenIndex(isOpening ? index : null);
+
+    if (isOpening) {
+      requestAnimationFrame(() => {
+        itemRefs.current[index]?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        })
+      })
+    }
+  }
 
   return (
-    <div className="flex flex-col gap-6 px-6 pb-6">
+    <div className="flex flex-col gap-4 px-4 pb-6 sm:gap-6 sm:px-6">
       {items.map((item, index) => {
         const isOpen = openIndex === index;
 
         return (
-          <div key={index} className="rounded-lg bg-black/30" style={{ borderColor: COLORS.sand, borderWidth: 1 }}>
+          <div
+            key={index}
+            ref={(el) => {
+              itemRefs.current[index] = el;
+            }}
+            className={`scroll-mt-24 overflow-hidden rounded-2xl border transition-all duration-300 ${isOpen
+              ? "bg-black/50 shadow-lg shadow-black/30"
+              : "bg-black/30"
+              }`}
+            style={{
+              borderColor: isOpen ? COLORS.sand : `${COLORS.sand}55`,
+              borderWidth: 1,
+            }}
+          >
             <button
               type="button"
-              onClick={() => setOpenIndex(isOpen ? null : index)}
-              className="flex w-full items-center justify-between p-4 text-left font-medium" style={{ color: COLORS.sand }}
+              onClick={() => handleToggle(index)}
+              className="flex w-full items-start justify-between gap-3 p-4 text-left font-medium sm:items-center"
+              style={{ color: COLORS.sand }}
             >
-              <span>{item.title}</span>
+              <span className="min-w-0 flex-1 text-sm leading-6 sm:text-base">
+                {item.title}
+              </span>
+
               <ChevronDown
-                className={`h-5 w-5 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                className={`mt-0.5 h-5 w-5 shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""
+                  }`}
               />
             </button>
 
-            {isOpen && (
-              <div className="px-4 pb-4 text-sm" style={{ color: COLORS.white }} dangerouslySetInnerHTML={{ __html: item.content }} />
-            )}
+            <div
+              className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                }`}
+            >
+              <div className="overflow-hidden">
+                <div
+                  className="px-4 pb-4 text-sm"
+                  style={{ color: COLORS.white }}
+                  dangerouslySetInnerHTML={{ __html: item.content }}
+                />
+              </div>
+            </div>
           </div>
         );
       })}
