@@ -1,11 +1,9 @@
 "use client";
 
-import { request } from "http";
 import {
   ChevronDown,
 } from "lucide-react";
 import { useRef, useState } from "react";
-import { blob } from "stream/consumers";
 import { COLORS } from "../utils/exports";
 
 type Item = {
