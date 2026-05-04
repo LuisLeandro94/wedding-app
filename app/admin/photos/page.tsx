@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { authOptions } from "@/app/lib/auth";
 import { connectToDatabase } from "@/app/lib/mongodb";
 import { getServerSession } from "next-auth";
