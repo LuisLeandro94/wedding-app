@@ -7,7 +7,9 @@ import { redirect } from "next/navigation";
 export default async function AdminPhotosPage() {
     const session = await getServerSession(authOptions);
 
-    if (!session?.user || session.user.email !== process.env.ADMIN_EMAIL) {
+    const adminEmails = process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(",");
+
+    if (!session?.user?.email || !adminEmails?.includes(session.user.email as string)) {
         redirect("/");
     }
 
