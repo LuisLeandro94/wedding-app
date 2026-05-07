@@ -13,9 +13,24 @@ export default function Home() {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const protocolEmails = process.env.NEXT_PUBLIC_PROTOCOL_EMAILS?.split(",");
+  const WEDDING_DAY = new Date("2026-07-04T00:00:00+01:00");
 
-  const adminEmails = process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(",");
+  const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || "")
+    .split(",")
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
+  const protocolEmails = (process.env.NEXT_PUBLIC_PROTOCOL_EMAILS || "")
+    .split(",")
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
+
+  const userEmail = session?.user?.email?.toLowerCase();
+  const isAdmin = !!userEmail && adminEmails.includes(userEmail);
+  const isProtocol = !!userEmail && protocolEmails.includes(userEmail);
+  const isWeddingDayOrAfter = new Date() >= WEDDING_DAY;
+
+  const canAccessPhotos = isAdmin || isWeddingDayOrAfter;
+  const canAccessProtocol = isProtocol || isAdmin;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 sm:p-8 overflow-x-hidden">
@@ -41,18 +56,25 @@ export default function Home() {
                   <a className="pointer-events-none transition border-t-2 border-b-2 border-gray-500 py-2 px-3 sm:px-4 text-gray-500 whitespace-nowrap">
                     Mesas
                   </a>
-                  {session.user?.email && adminEmails?.includes(session.user.email) ? (<a onClick={() => router.push("/photos")} className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 px-3 sm:px-4 whitespace-nowrap">
-                    Fotos
-                  </a>) : (<a className="pointer-events-none transition border-t-2 border-b-2 border-gray-500 py-2 px-3 sm:px-4 text-gray-500 whitespace-nowrap">
-                    Fotos
-                  </a>)}
-                  {(session.user?.email && protocolEmails?.includes(session.user.email)) && (
+                  {canAccessPhotos ? (
+                    <a
+                      onClick={() => router.push("/photos")}
+                      className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 px-3 sm:px-4 whitespace-nowrap"
+                    >
+                      Fotos
+                    </a>
+                  ) : (
+                    <a className="pointer-events-none transition border-t-2 border-b-2 border-gray-500 py-2 px-3 sm:px-4 text-gray-500 whitespace-nowrap">
+                      Fotos
+                    </a>
+                  )}
+                  {canAccessProtocol && (
                     <a onClick={() => router.push("/protocolo")} className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 px-3 sm:px-4 whitespace-nowrap">
                       Protocolo
                     </a>
                   )
                   }
-                  {(session.user?.email && adminEmails?.includes(session.user.email)) && (
+                  {isAdmin && (
                     <a onClick={() => router.push("/admin/photos")} className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 px-3 sm:px-4 whitespace-nowrap">
                       Galeria
                     </a>
