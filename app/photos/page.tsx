@@ -3,6 +3,7 @@
 import { upload } from "@vercel/blob/client";
 import imageCompression from "browser-image-compression";
 import { motion } from "framer-motion";
+import { Camera } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -174,13 +175,13 @@ export default function PhotosPage() {
 
                             <div className="flex flex-col items-center gap-3">
                                 <div
-                                    className="h-14 w-14 rounded-full flex items-center justify-center text-2xl"
+                                    className="mx-auto mb-5 h-14 w-14 rounded-full flex items-center justify-center"
                                     style={{
                                         backgroundColor: sand,
                                         color: space,
                                     }}
                                 >
-                                    📸
+                                    <Camera size={26} strokeWidth={2.2} />
                                 </div>
 
                                 <span className="font-medium" style={{ color: sand }}>
