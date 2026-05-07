@@ -8,28 +8,17 @@ import Logo from "../public/Logo.svg";
 import { CountdownTimer } from "./_components/countdown";
 import Starfield from "./_components/starfield";
 import StarTrail from "./_components/starTrail";
+import { isAdminEmail, isProtocolEmail, isWeddingDayOrAfter } from "./lib/access";
 
 export default function Home() {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const WEDDING_DAY = new Date("2026-07-04T00:00:00+01:00");
-
-  const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || "")
-    .split(",")
-    .map((email) => email.trim().toLowerCase())
-    .filter(Boolean);
-  const protocolEmails = (process.env.NEXT_PUBLIC_PROTOCOL_EMAILS || "")
-    .split(",")
-    .map((email) => email.trim().toLowerCase())
-    .filter(Boolean);
-
   const userEmail = session?.user?.email?.toLowerCase();
-  const isAdmin = !!userEmail && adminEmails.includes(userEmail);
-  const isProtocol = !!userEmail && protocolEmails.includes(userEmail);
-  const isWeddingDayOrAfter = new Date() >= WEDDING_DAY;
+  const isAdmin = !!userEmail && isAdminEmail(userEmail);
+  const isProtocol = !!userEmail && isProtocolEmail(userEmail);
 
-  const canAccessPhotosOrTables = isAdmin || isWeddingDayOrAfter;
+  const canAccessPhotosOrTables = isAdmin || isWeddingDayOrAfter();
   const canAccessProtocol = isProtocol || isAdmin;
 
   return (
