@@ -26,15 +26,31 @@ export default function PhotosPage() {
     const space = COLORS.space;
     const white = COLORS.white;
 
+    const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || "")
+        .split(",")
+        .map((email) => email.trim().toLowerCase())
+        .filter(Boolean);
+
+    const WEDDING_DAY = new Date("2026-07-04T00:00:00+01:00");
+
+    const userEmail = session?.user?.email?.toLowerCase();
+
+    const isAdmin = !!userEmail && adminEmails.includes(userEmail);
+    const isWeddingDayOrAfter = new Date() >= WEDDING_DAY;
+    const canAccessPhotos = isAdmin || isWeddingDayOrAfter;
+
     useEffect(() => {
-        if (status === "unauthenticated") {
+        if (
+            status === "unauthenticated" ||
+            (status === "authenticated" && !canAccessPhotos)
+        ) {
             router.push("/");
         }
-    }, [status, router]);
+    }, [status, canAccessPhotos, router]);
 
     const isDisabled = useMemo(() => {
-        return uploading || status === "loading";
-    }, [uploading, status]);
+        return uploading || status === "loading" || !canAccessPhotos;
+    }, [uploading, status, canAccessPhotos]);
 
     async function handleFiles(files: FileList | null) {
         if (!files?.length) return;
@@ -110,7 +126,7 @@ export default function PhotosPage() {
         }
     }
 
-    if (status === "loading" || !session) return null;
+    if (status === "loading" || !session || !canAccessPhotos) return null;
 
     return (
         <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">

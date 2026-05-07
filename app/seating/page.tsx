@@ -2,6 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
+import { useEffect } from "react";
 import GalaxySeatingR3F from "../_components/galaxySeating";
 
 const tables = [
@@ -12,12 +13,39 @@ const tables = [
 ];
 
 export default function Page() {
-    const { data: session } = useSession();
-
+    const { data: session, status } = useSession();
     const router = useRouter();
 
-    if (!session) {
-        router.push("/");
+    const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || "")
+        .split(",")
+        .map((email) => email.trim().toLowerCase())
+        .filter(Boolean);
+
+    const WEDDING_DAY = new Date("2026-07-04T00:00:00+01:00");
+
+    const userEmail = session?.user?.email?.toLowerCase();
+
+    const isAdmin =
+        !!userEmail && adminEmails.includes(userEmail);
+
+    const isWeddingDayOrAfter =
+        new Date() >= WEDDING_DAY;
+
+    const canAccessSeatingPlan =
+        isAdmin || isWeddingDayOrAfter;
+
+
+    useEffect(() => {
+        if (status === "unauthenticated" || (status === "authenticated" && !canAccessSeatingPlan)) {
+            router.push("/");
+        }
+    }, [status, canAccessSeatingPlan, router]);
+
+    if (
+        status === "loading" ||
+        !session ||
+        !canAccessSeatingPlan
+    ) {
         return null;
     }
 

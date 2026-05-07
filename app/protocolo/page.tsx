@@ -11,15 +11,39 @@ import Starfield from "../_components/starfield";
 import { COLORS } from '../utils/exports';
 
 const WeddingProtocolPage: React.FC = () => {
-    const { data: session } = useSession();
-
+    const { data: session, status } = useSession();
     const router = useRouter();
 
+    const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || "")
+        .split(",")
+        .map((email) => email.trim().toLowerCase())
+        .filter(Boolean);
+    const protocolEmails = (process.env.NEXT_PUBLIC_PROTOCOL_EMAILS || "")
+        .split(",")
+        .map((email) => email.trim().toLowerCase())
+        .filter(Boolean);
+
+    const userEmail = session?.user?.email?.toLowerCase();
+    const isAdmin = !!userEmail && adminEmails.includes(userEmail);
+    const isProtocol = !!userEmail && protocolEmails.includes(userEmail);
+
+    const canAccessSeatingPlan =
+        isAdmin || isProtocol;
+
+
     useEffect(() => {
-        if (!session) {
-            router.push('/');
+        if (status === "unauthenticated" || (status === "authenticated" && !canAccessSeatingPlan)) {
+            router.push("/");
         }
-    }, [session, router]);
+    }, [status, canAccessSeatingPlan, router]);
+
+    if (
+        status === "loading" ||
+        !session ||
+        !canAccessSeatingPlan
+    ) {
+        return null;
+    }
 
     const sand = COLORS.sand;
 
