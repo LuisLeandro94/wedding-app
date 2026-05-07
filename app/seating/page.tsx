@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import { useEffect } from "react";
 import GalaxySeatingR3F from "../_components/galaxySeating";
+import { isAdminEmail, isWeddingDayOrAfter } from "../lib/access";
 
 const tables = [
     { id: "t1", name: "Andrómeda", guests: [{ id: "1", name: "João Silva" }, { id: "2", name: "Maria Silva" }] },
@@ -16,23 +17,10 @@ export default function Page() {
     const { data: session, status } = useSession();
     const router = useRouter();
 
-    const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || "")
-        .split(",")
-        .map((email) => email.trim().toLowerCase())
-        .filter(Boolean);
-
-    const WEDDING_DAY = new Date("2026-07-04T00:00:00+01:00");
-
     const userEmail = session?.user?.email?.toLowerCase();
 
-    const isAdmin =
-        !!userEmail && adminEmails.includes(userEmail);
-
-    const isWeddingDayOrAfter =
-        new Date() >= WEDDING_DAY;
-
     const canAccessSeatingPlan =
-        isAdmin || isWeddingDayOrAfter;
+        isAdminEmail(userEmail) || isWeddingDayOrAfter();
 
 
     useEffect(() => {

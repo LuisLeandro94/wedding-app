@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Starfield from "../_components/starfield";
+import { isAdminEmail, isWeddingDayOrAfter } from "../lib/access";
 import { COLORS } from "../utils/exports";
 
 const MAX_FILE_SIZE = 25 * 1024 * 1024;
@@ -26,31 +27,22 @@ export default function PhotosPage() {
     const space = COLORS.space;
     const white = COLORS.white;
 
-    const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || "")
-        .split(",")
-        .map((email) => email.trim().toLowerCase())
-        .filter(Boolean);
-
-    const WEDDING_DAY = new Date("2026-07-04T00:00:00+01:00");
-
     const userEmail = session?.user?.email?.toLowerCase();
 
-    const isAdmin = !!userEmail && adminEmails.includes(userEmail);
-    const isWeddingDayOrAfter = new Date() >= WEDDING_DAY;
-    const canAccessPhotos = isAdmin || isWeddingDayOrAfter;
+    const hasPhotoAccess = isAdminEmail(userEmail) || isWeddingDayOrAfter();
 
     useEffect(() => {
         if (
             status === "unauthenticated" ||
-            (status === "authenticated" && !canAccessPhotos)
+            (status === "authenticated" && !hasPhotoAccess)
         ) {
             router.push("/");
         }
-    }, [status, canAccessPhotos, router]);
+    }, [status, hasPhotoAccess, router]);
 
     const isDisabled = useMemo(() => {
-        return uploading || status === "loading" || !canAccessPhotos;
-    }, [uploading, status, canAccessPhotos]);
+        return uploading || status === "loading" || !hasPhotoAccess;
+    }, [uploading, status, hasPhotoAccess]);
 
     async function handleFiles(files: FileList | null) {
         if (!files?.length) return;
@@ -126,7 +118,7 @@ export default function PhotosPage() {
         }
     }
 
-    if (status === "loading" || !session || !canAccessPhotos) return null;
+    if (status === "loading" || !session || !hasPhotoAccess) return null;
 
     return (
         <div className="grid items-center justify-items-center min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">

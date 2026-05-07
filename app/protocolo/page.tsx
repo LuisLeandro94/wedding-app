@@ -8,27 +8,17 @@ import React, { useEffect } from "react";
 import Accordion from '../_components/accordion';
 import RequestChangeButton from '../_components/requestChangeButton';
 import Starfield from "../_components/starfield";
+import { isAdminEmail, isProtocolEmail } from '../lib/access';
 import { COLORS } from '../utils/exports';
 
 const WeddingProtocolPage: React.FC = () => {
     const { data: session, status } = useSession();
     const router = useRouter();
 
-    const adminEmails = (process.env.NEXT_PUBLIC_ADMIN_EMAILS || "")
-        .split(",")
-        .map((email) => email.trim().toLowerCase())
-        .filter(Boolean);
-    const protocolEmails = (process.env.NEXT_PUBLIC_PROTOCOL_EMAILS || "")
-        .split(",")
-        .map((email) => email.trim().toLowerCase())
-        .filter(Boolean);
-
     const userEmail = session?.user?.email?.toLowerCase();
-    const isAdmin = !!userEmail && adminEmails.includes(userEmail);
-    const isProtocol = !!userEmail && protocolEmails.includes(userEmail);
 
     const canAccessSeatingPlan =
-        isAdmin || isProtocol;
+        isAdminEmail(userEmail) || isProtocolEmail(userEmail);
 
 
     useEffect(() => {
