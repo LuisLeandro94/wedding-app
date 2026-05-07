@@ -29,7 +29,7 @@ export default function Home() {
   const isProtocol = !!userEmail && protocolEmails.includes(userEmail);
   const isWeddingDayOrAfter = new Date() >= WEDDING_DAY;
 
-  const canAccessPhotos = isAdmin || isWeddingDayOrAfter;
+  const canAccessPhotosOrTables = isAdmin || isWeddingDayOrAfter;
   const canAccessProtocol = isProtocol || isAdmin;
 
   return (
@@ -53,10 +53,19 @@ export default function Home() {
                   <a onClick={() => router.push("/information")} className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 px-3 sm:px-4 whitespace-nowrap">
                     Informações
                   </a>
-                  <a className="pointer-events-none transition border-t-2 border-b-2 border-gray-500 py-2 px-3 sm:px-4 text-gray-500 whitespace-nowrap">
-                    Mesas
-                  </a>
-                  {canAccessPhotos ? (
+                  {canAccessPhotosOrTables ? (
+                    <a
+                      onClick={() => router.push("/seating")}
+                      className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 px-3 sm:px-4 whitespace-nowrap"
+                    >
+                      Mesas
+                    </a>
+                  ) : (
+                    <a className="pointer-events-none transition border-t-2 border-b-2 border-gray-500 py-2 px-3 sm:px-4 text-gray-500 whitespace-nowrap">
+                      Mesas
+                    </a>
+                  )}
+                  {canAccessPhotosOrTables ? (
                     <a
                       onClick={() => router.push("/photos")}
                       className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 px-3 sm:px-4 whitespace-nowrap"
