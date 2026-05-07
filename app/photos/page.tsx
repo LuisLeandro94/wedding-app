@@ -187,10 +187,6 @@ export default function PhotosPage() {
                                 <span className="font-medium" style={{ color: sand }}>
                                     {uploading ? "A enviar..." : "Selecionar fotos"}
                                 </span>
-
-                                <span className="text-xs md:text-sm" style={{ color: white }}>
-                                    Toca aqui para escolher fotos do telemóvel
-                                </span>
                             </div>
                         </label>
 
