@@ -90,8 +90,8 @@ export default function PhotosPage() {
 
         try {
             const results = await Promise.allSettled(
-                selectedFiles.map((file, index) =>
-                    uploadSingleFile(file, index, selectedFiles.length)
+                selectedFiles.map((file) =>
+                    uploadSingleFile(file)
                 )
             );
 
