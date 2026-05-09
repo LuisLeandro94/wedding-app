@@ -51,68 +51,86 @@ export default function PhotosPage() {
         setMessage("");
         setProgressText("");
 
-        try {
-            const selectedFiles = Array.from(files);
+        const selectedFiles = Array.from(files);
+        let successfulUploads = 0;
+        let failedUploads = 0;
 
+        try {
             for (let index = 0; index < selectedFiles.length; index++) {
                 const file = selectedFiles[index];
 
-                if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-                    throw new Error(`Formato não suportado: ${file.name}`);
-                }
+                try {
+                    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+                        throw new Error(`Formato não suportado: ${file.name}`);
+                    }
 
-                if (file.size > MAX_FILE_SIZE) {
-                    throw new Error(`A foto ${file.name} excede 25 MB.`);
-                }
+                    if (file.size > MAX_FILE_SIZE) {
+                        throw new Error(`A foto ${file.name} excede 25 MB.`);
+                    }
 
-                setProgressText(`A preparar foto ${index + 1} de ${selectedFiles.length}...`);
+                    setProgressText(
+                        `A preparar foto ${index + 1} de ${selectedFiles.length}...`
+                    );
 
-                const compressedFile = await imageCompression(file, {
-                    maxSizeMB: 8,
-                    maxWidthOrHeight: 3000,
-                    useWebWorker: true,
-                    fileType: file.type,
-                });
+                    const compressedFile = await imageCompression(file, {
+                        maxSizeMB: 8,
+                        maxWidthOrHeight: 3000,
+                        useWebWorker: true,
+                        fileType: file.type,
+                    });
 
-                const extension = file.name.split(".").pop() || "jpg";
-                const pathname = `wedding/photos/${uuidv4()}.${extension}`;
+                    const extension = file.name.split(".").pop() || "jpg";
+                    const pathname = `wedding/photos/${uuidv4()}.${extension}`;
 
-                setProgressText(`A enviar foto ${index + 1} de ${selectedFiles.length}...`);
+                    setProgressText(
+                        `A enviar foto ${index + 1} de ${selectedFiles.length}...`
+                    );
 
-                const blob = await upload(pathname, compressedFile, {
-                    access: "public",
-                    handleUploadUrl: "/api/photos/upload",
-                });
+                    const blob = await upload(pathname, compressedFile, {
+                        access: "public",
+                        handleUploadUrl: "/api/photos/upload",
+                    });
 
-                setProgressText(`A guardar foto ${index + 1} de ${selectedFiles.length}...`);
+                    setProgressText(
+                        `A guardar foto ${index + 1} de ${selectedFiles.length}...`
+                    );
 
-                const saveResponse = await fetch("/api/photos", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        url: blob.url,
-                        pathname: blob.pathname,
-                        contentType: compressedFile.type,
-                        size: compressedFile.size,
-                        originalName: file.name,
-                    }),
-                });
+                    const saveResponse = await fetch("/api/photos", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            url: blob.url,
+                            pathname: blob.pathname,
+                            contentType: compressedFile.type,
+                            size: compressedFile.size,
+                            originalName: file.name,
+                        }),
+                    });
 
-                if (!saveResponse.ok) {
-                    throw new Error("A foto foi enviada, mas não foi guardada na galeria.");
+                    if (!saveResponse.ok) {
+                        throw new Error("A foto foi enviada, mas não foi guardada na galeria.");
+                    }
+
+                    successfulUploads++;
+                } catch (fileError) {
+                    console.error(`Erro na foto ${file.name}:`, fileError);
+                    failedUploads++;
                 }
             }
 
-            setMessage("Obrigado! As fotos foram enviadas com sucesso.");
             setProgressText("");
-        } catch (error) {
-            setMessage(
-                error instanceof Error
-                    ? error.message
-                    : "Não foi possível enviar as fotos."
-            );
+
+            if (successfulUploads > 0 && failedUploads === 0) {
+                setMessage("Obrigado! As fotos foram enviadas com sucesso.");
+            } else if (successfulUploads > 0 && failedUploads > 0) {
+                setMessage(
+                    `${successfulUploads} foto(s) enviadas. ${failedUploads} falharam.`
+                );
+            } else {
+                setMessage("Não foi possível enviar as fotos.");
+            }
         } finally {
             setUploading(false);
         }
@@ -178,7 +196,10 @@ export default function PhotosPage() {
                                 multiple
                                 className="hidden"
                                 disabled={isDisabled}
-                                onChange={(event) => handleFiles(event.target.files)}
+                                onChange={(event) => {
+                                    handleFiles(event.target.files);
+                                    event.target.value = "";
+                                }}
                             />
 
                             <div className="flex flex-col items-center gap-3">
