@@ -53,8 +53,6 @@ export default function PhotosPage() {
             throw new Error(`A foto ${file.name} excede 25 MB.`);
         }
 
-        setProgressText(`A preparar fotos... (${index + 1}/${total})`);
-
         let processedFile = file;
 
         if (file.size > 2 * 1024 * 1024) {
@@ -68,8 +66,6 @@ export default function PhotosPage() {
 
         const extension = file.name.split(".").pop() || "jpg";
         const pathname = `wedding/photos/${uuidv4()}.${extension}`;
-
-        setProgressText(`A enviar fotos... (${index + 1}/${total})`);
 
         const blob = await upload(pathname, processedFile, {
             access: "public",
@@ -91,10 +87,15 @@ export default function PhotosPage() {
         });
 
         if (!saveResponse.ok) {
+            const errorText = await saveResponse.text();
+            console.error("Save metadata failed:", errorText);
             throw new Error("A foto foi enviada, mas não foi guardada na galeria.");
         }
 
-        return blob;
+        return {
+            ok: true,
+            fileName: file.name,
+        };
     }
 
     async function handleFiles(files: FileList | null) {
@@ -102,7 +103,7 @@ export default function PhotosPage() {
 
         setUploading(true);
         setMessage("");
-        setProgressText("");
+        setProgressText("A preparar fotos...");
 
         const selectedFiles = Array.from(files);
 
@@ -113,25 +114,26 @@ export default function PhotosPage() {
                 )
             );
 
-            const successfulUploads = results.filter(
-                (result) => result.status === "fulfilled"
-            ).length;
-
-            const failedUploads = results.filter(
+            const failedResults = results.filter(
                 (result) => result.status === "rejected"
-            ).length;
+            );
+
+            console.log("Upload results:", results);
 
             setProgressText("");
 
-            if (successfulUploads > 0 && failedUploads === 0) {
+            if (failedResults.length === 0) {
                 setMessage("Obrigado! As fotos foram enviadas com sucesso.");
-            } else if (successfulUploads > 0 && failedUploads > 0) {
+            } else if (failedResults.length < selectedFiles.length) {
                 setMessage(
-                    `${successfulUploads} foto(s) enviadas. ${failedUploads} falharam.`
+                    `${selectedFiles.length - failedResults.length} foto(s) enviadas. ${failedResults.length} falharam.`
                 );
             } else {
                 setMessage("Não foi possível enviar as fotos.");
             }
+        } catch (error) {
+            console.error("Unexpected upload error:", error);
+            setMessage("Não foi possível enviar as fotos.");
         } finally {
             setUploading(false);
         }
