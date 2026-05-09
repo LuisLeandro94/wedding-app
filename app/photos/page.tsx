@@ -44,7 +44,7 @@ export default function PhotosPage() {
         return uploading || status === "loading" || !hasPhotoAccess;
     }, [uploading, status, hasPhotoAccess]);
 
-    async function uploadSingleFile(file: File, index: number, total: number) {
+    async function uploadSingleFile(file: File) {
         if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
             throw new Error(`Formato não suportado: ${file.name}`);
         }
