@@ -45,7 +45,6 @@ export async function POST(request: Request) {
 
           url: blob.url,
           pathname: blob.pathname,
-
           contentType: blob.contentType,
 
           status: 'pending',

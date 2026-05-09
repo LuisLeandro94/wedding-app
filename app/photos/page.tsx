@@ -72,29 +72,10 @@ export default function PhotosPage() {
             handleUploadUrl: "/api/photos/upload",
         });
 
-        const saveResponse = await fetch("/api/photos", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                url: blob.url,
-                pathname: blob.pathname,
-                contentType: processedFile.type,
-                size: processedFile.size,
-                originalName: file.name,
-            }),
-        });
-
-        if (!saveResponse.ok) {
-            const errorText = await saveResponse.text();
-            console.error("Save metadata failed:", errorText);
-            throw new Error("A foto foi enviada, mas não foi guardada na galeria.");
-        }
-
         return {
             ok: true,
             fileName: file.name,
+            blobUrl: blob.url,
         };
     }
 
