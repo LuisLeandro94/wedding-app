@@ -44,6 +44,59 @@ export default function PhotosPage() {
         return uploading || status === "loading" || !hasPhotoAccess;
     }, [uploading, status, hasPhotoAccess]);
 
+    async function uploadSingleFile(file: File, index: number, total: number) {
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+            throw new Error(`Formato não suportado: ${file.name}`);
+        }
+
+        if (file.size > MAX_FILE_SIZE) {
+            throw new Error(`A foto ${file.name} excede 25 MB.`);
+        }
+
+        setProgressText(`A preparar fotos... (${index + 1}/${total})`);
+
+        let processedFile = file;
+
+        if (file.size > 2 * 1024 * 1024) {
+            processedFile = await imageCompression(file, {
+                maxSizeMB: 4,
+                maxWidthOrHeight: 2200,
+                useWebWorker: true,
+                fileType: file.type,
+            });
+        }
+
+        const extension = file.name.split(".").pop() || "jpg";
+        const pathname = `wedding/photos/${uuidv4()}.${extension}`;
+
+        setProgressText(`A enviar fotos... (${index + 1}/${total})`);
+
+        const blob = await upload(pathname, processedFile, {
+            access: "public",
+            handleUploadUrl: "/api/photos/upload",
+        });
+
+        const saveResponse = await fetch("/api/photos", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                url: blob.url,
+                pathname: blob.pathname,
+                contentType: processedFile.type,
+                size: processedFile.size,
+                originalName: file.name,
+            }),
+        });
+
+        if (!saveResponse.ok) {
+            throw new Error("A foto foi enviada, mas não foi guardada na galeria.");
+        }
+
+        return blob;
+    }
+
     async function handleFiles(files: FileList | null) {
         if (!files?.length) return;
 
@@ -52,73 +105,21 @@ export default function PhotosPage() {
         setProgressText("");
 
         const selectedFiles = Array.from(files);
-        let successfulUploads = 0;
-        let failedUploads = 0;
 
         try {
-            for (let index = 0; index < selectedFiles.length; index++) {
-                const file = selectedFiles[index];
+            const results = await Promise.allSettled(
+                selectedFiles.map((file, index) =>
+                    uploadSingleFile(file, index, selectedFiles.length)
+                )
+            );
 
-                try {
-                    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-                        throw new Error(`Formato não suportado: ${file.name}`);
-                    }
+            const successfulUploads = results.filter(
+                (result) => result.status === "fulfilled"
+            ).length;
 
-                    if (file.size > MAX_FILE_SIZE) {
-                        throw new Error(`A foto ${file.name} excede 25 MB.`);
-                    }
-
-                    setProgressText(
-                        `A preparar foto ${index + 1} de ${selectedFiles.length}...`
-                    );
-
-                    const compressedFile = await imageCompression(file, {
-                        maxSizeMB: 8,
-                        maxWidthOrHeight: 3000,
-                        useWebWorker: true,
-                        fileType: file.type,
-                    });
-
-                    const extension = file.name.split(".").pop() || "jpg";
-                    const pathname = `wedding/photos/${uuidv4()}.${extension}`;
-
-                    setProgressText(
-                        `A enviar foto ${index + 1} de ${selectedFiles.length}...`
-                    );
-
-                    const blob = await upload(pathname, compressedFile, {
-                        access: "public",
-                        handleUploadUrl: "/api/photos/upload",
-                    });
-
-                    setProgressText(
-                        `A guardar foto ${index + 1} de ${selectedFiles.length}...`
-                    );
-
-                    const saveResponse = await fetch("/api/photos", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            url: blob.url,
-                            pathname: blob.pathname,
-                            contentType: compressedFile.type,
-                            size: compressedFile.size,
-                            originalName: file.name,
-                        }),
-                    });
-
-                    if (!saveResponse.ok) {
-                        throw new Error("A foto foi enviada, mas não foi guardada na galeria.");
-                    }
-
-                    successfulUploads++;
-                } catch (fileError) {
-                    console.error(`Erro na foto ${file.name}:`, fileError);
-                    failedUploads++;
-                }
-            }
+            const failedUploads = results.filter(
+                (result) => result.status === "rejected"
+            ).length;
 
             setProgressText("");
 
