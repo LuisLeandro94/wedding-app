@@ -5,6 +5,7 @@
 // GalaxySeatingR3F — immersive full screen with fade-in, centered focus, hover halo, upright labels, large popover guest list
 // Palette: #0D1017 (space), #C8AB8B (sand)
 
+import { Table } from "@/public/tables";
 import { Billboard, OrbitControls, Stars, Text } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
@@ -13,9 +14,6 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AdditiveBlending, Vector3 } from "three";
 
 const COLORS = { space: "#0D1017", sand: "#C8AB8B" };
-
-type Guest = { id: string; name: string };
-type Table = { id: string; name: string; guests: Guest[]; seats?: number };
 
 // ---------------- Galaxy helpers ----------------
 function makeSpiralPoints(count: number, radius: number, arms: number) {
@@ -174,9 +172,9 @@ export default function GalaxySeatingR3F({ tables }: { tables: Table[] }) {
         });
     }, [tables]);
 
-    const activePos = activeId ? layout.find((l) => l.table.id === activeId)?.position || null : null;
+    const activePos = activeId ? layout.find((l) => l.table.id.toString() === activeId)?.position || null : null;
     const controlsRef = useRef<any>(null);
-    const activeTable = activeId ? tables.find(t => t.id === activeId) || null : null;
+    const activeTable = activeId ? tables.find(t => t.id.toString() === activeId) || null : null;
 
     return (
         <div className={`fixed inset-0 w-full h-full transition-opacity duration-1000 ${fadeIn ? 'opacity-100' : 'opacity-0'}`} style={{ background: COLORS.space }}>
@@ -240,12 +238,12 @@ export default function GalaxySeatingR3F({ tables }: { tables: Table[] }) {
                         key={table.id}
                         table={table}
                         position={position}
-                        focused={table.id === (hoverId || activeId)}
-                        hovered={table.id === hoverId}
-                        dimmed={!!activeId && table.id !== activeId}
-                        onPointerOver={() => setHoverId(table.id)}
-                        onPointerOut={() => setHoverId((id) => (id === table.id ? null : id))}
-                        onClick={() => setActiveId(table.id)}
+                        focused={table.id.toString() === (hoverId || activeId)}
+                        hovered={table.id.toString() === hoverId}
+                        dimmed={!!activeId && table.id.toString() !== activeId}
+                        onPointerOver={() => setHoverId(table.id.toString())}
+                        onPointerOut={() => setHoverId((id) => (id === table.id.toString() ? null : id))}
+                        onClick={() => setActiveId(table.id.toString())}
                     />
                 ))}
 
