@@ -395,7 +395,7 @@ const items: Item[] = [
               </svg>
               <h3 class="text-base sm:text-lg font-semibold">Convidados</h3>
             </div>
-            <p class="text-sm leading-6 text-white/80 break-words">160 convidados</p>
+            <p class="text-sm leading-6 text-white/80 break-words">118 convidados</p>
           </div>
 
           <div class="rounded-2xl border border-[#C8AB8B]/20 bg-[#0D1017] p-4 sm:p-5">
