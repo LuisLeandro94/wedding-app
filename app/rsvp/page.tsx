@@ -25,6 +25,7 @@ interface RSVP {
 const RSVPPage: React.FC = () => {
     const sand = COLORS.sand;
     const space = COLORS.space;
+    const pastDate = new Date() > new Date(2026, 4, 31, 23, 59, 59, 999);
     const [decision, setDecision] = useState<"Accepted" | "Declined" | null>(null);
     const [adults, setAdults] = useState<number | "">(0);
     const [kids, setKids] = useState<number | "">(0);
@@ -84,7 +85,7 @@ const RSVPPage: React.FC = () => {
     };
 
     useEffect(() => {
-        if (!session) {
+        if (!session || pastDate) {
             router.push("/");
         }
 
