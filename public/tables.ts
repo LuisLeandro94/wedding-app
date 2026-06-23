@@ -10,6 +10,245 @@ export interface Table {
   seats: number;
 }
 
+export type NewGuest = {
+  name: string;
+  table: number;
+};
+
+export type TableInfo = {
+  number: number;
+  name: string;
+  guests: string[];
+  x: string;
+  y: string;
+};
+
+export const NewTables: TableInfo[] = [
+  {
+    number: 1,
+    name: 'Andromeda',
+    x: '78%',
+    y: '24%',
+    guests: [
+      'Rosa',
+      'Ângelo',
+      'Anabela',
+      'Pedro',
+      'Ana Flor',
+      'Feliciano',
+      'Anđela',
+      'Avó Emília',
+      'Fátima',
+    ],
+  },
+  {
+    number: 2,
+    name: 'Orion',
+    x: '86%',
+    y: '38%',
+    guests: [
+      'Palmira',
+      'Aurélio',
+      'Avô Chiquinho',
+      'Avó Livinha',
+      'Abílio',
+      'Cristina',
+      'Manuel',
+      'Sandra',
+      'Teresa',
+      'José',
+    ],
+  },
+  {
+    number: 3,
+    name: 'Hydra',
+    x: '84%',
+    y: '56%',
+    guests: [
+      'Emília',
+      'Manuel',
+      'Cristina',
+      'Albano',
+      'Célia',
+      'Nelo',
+      'Carmo',
+      'Adriano',
+      'Conceição',
+      'Carlos',
+      'Belém',
+    ],
+  },
+  {
+    number: 4,
+    name: 'Cassiopeia',
+    x: '72%',
+    y: '72%',
+    guests: [
+      'José',
+      'Beatriz',
+      'Ana',
+      'Catarina',
+      'Beatriz L.',
+      'Jorge',
+      'Pedro',
+      'João R.',
+      'Daniela',
+      'Leo',
+    ],
+  },
+  {
+    number: 5,
+    name: 'Centaurus',
+    x: '55%',
+    y: '82%',
+    guests: [
+      'Tiago',
+      'Sara',
+      'Adriana',
+      'João',
+      'Leonor',
+      'Beatriz S.',
+      'Marcelo',
+      'Beatriz C.',
+      'Bruna',
+      'Pedro',
+    ],
+  },
+  {
+    number: 6,
+    name: 'Lyra',
+    x: '38%',
+    y: '82%',
+    guests: [
+      'Salete',
+      'Rosa',
+      'César',
+      'Sérgio',
+      'Lúcia',
+      'Deolinda',
+      'Domingos',
+      'Avó Aurora',
+    ],
+  },
+  {
+    number: 7,
+    name: 'Pegasus',
+    x: '22%',
+    y: '72%',
+    guests: [
+      'Sérgio',
+      'Helena',
+      'Luísa',
+      'José',
+      'Susana',
+      'João',
+      'Leonel',
+      'Inês',
+      'Alice',
+    ],
+  },
+  {
+    number: 8,
+    name: 'Perseus',
+    x: '12%',
+    y: '56%',
+    guests: [
+      'Carina',
+      'Tó',
+      'Gonçalo',
+      'Bruno',
+      'Marlene',
+      'Matilde',
+      'Josefa',
+      'Manuel',
+    ],
+  },
+  {
+    number: 9,
+    name: 'Cepheus',
+    x: '14%',
+    y: '38%',
+    guests: [
+      'Sylviane',
+      'Ricardo',
+      'Matilde',
+      'Clara',
+      'Angelique',
+      'Ricardo',
+      'Afonso',
+      'Luísa',
+      'Priscila',
+      'Laura',
+    ],
+  },
+  {
+    number: 10,
+    name: 'Draco',
+    x: '30%',
+    y: '20%',
+    guests: [
+      'João Monteiro',
+      'Liliana',
+      'Daniel Costa',
+      'Raquel Fernandes',
+      'Henrique',
+      'Raquel',
+      'Diogo Costa',
+      'Diogo Leite',
+      'Eliana Magano',
+      'Margarida',
+      'Bruno',
+      'Adriana',
+      'Miguel Pinto',
+      'Juliana',
+      'Marco',
+      'Sofia',
+    ],
+  },
+  {
+    number: 11,
+    name: 'Aquila',
+    x: '54%',
+    y: '20%',
+    guests: [
+      'Margarida',
+      'Paulinho',
+      'Francisca',
+      'João',
+      'Estela',
+      'Pedro',
+      'Anabela',
+      'Lucas Martins',
+      'Mónica',
+      'André',
+      'Inês',
+      'João',
+      'Tiago',
+      'Venus',
+      'Francisca',
+      'Gabriela',
+      'José',
+    ],
+  },
+];
+
+export const TABLE_LAYOUT: Record<number, React.CSSProperties> = {
+  // esquerda
+  5: { left: '18%', top: '22%', width: '120px', height: '120px' },
+  7: { left: '7%',  top: '44%', width: '70px',  height: '70px'  },
+  3: { left: '20%', top: '59%', width: '130px', height: '130px' },
+  9: { left: '9%',  top: '79%', width: '120px', height: '120px' },
+  1: { left: '21%', top: '88%', width: '100px', height: '100px' },
+  // direita
+  8: { left: '93%', top: '25%', width: '70px',  height: '70px'  },
+  6: { left: '83%', top: '37%', width: '90px',  height: '90px'  },
+  4: { left: '89%', top: '61%', width: '140px', height: '140px' },
+  2: { left: '83%', top: '86%', width: '130px', height: '130px' },
+  // retangulares — left/right edges kept clear of PISTA (460–740px)
+  11: { left: '34%', top: '50%', width: '80px', height: '490px' },
+  10: { left: '66%', top: '47%', width: '80px', height: '380px' },
+};
+
 export const tables: Table[] = [
   {
     id: 1,

@@ -5,16 +5,12 @@ import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import { useEffect } from "react";
 import GalaxySeatingR3F from "../_components/galaxySeating";
-import { isAdminEmail, isEarlyAccess, isWeddingDayOrAfter } from "../lib/access";
 
 export default function Page() {
     const { data: session, status } = useSession();
     const router = useRouter();
 
-    const userEmail = session?.user?.email?.toLowerCase();
-
-    const canAccessSeatingPlan =
-        isAdminEmail(userEmail) || isWeddingDayOrAfter() || isEarlyAccess();
+    const canAccessSeatingPlan = false;
 
 
     useEffect(() => {

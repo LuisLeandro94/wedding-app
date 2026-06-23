@@ -1,4 +1,5 @@
 export const WEDDING_DAY = new Date('2026-07-04T00:00:00+01:00');
+export const PRE_WEDDING_DAY = new Date('2026-06-20T00:00:00+01:00');
 
 export function getAdminEmails() {
   return (process.env.NEXT_PUBLIC_ADMIN_EMAILS || '')
@@ -28,4 +29,8 @@ export function isProtocolEmail(email?: string | null) {
 
 export function isWeddingDayOrAfter() {
   return new Date() >= WEDDING_DAY;
+}
+
+export function isEarlyAccess() {
+  return new Date() >= PRE_WEDDING_DAY;
 }
