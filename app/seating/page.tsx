@@ -2,10 +2,11 @@
 
 import { tables } from "@/public/tables";
 import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
 import { useRouter } from 'next/navigation';
 import { useEffect } from "react";
-import GalaxySeatingR3F from "../_components/galaxySeating";
 import { isAdminEmail, isEarlyAccess, isWeddingDayOrAfter } from "../lib/access";
+const GalaxySeatingR3F = dynamic(() => import("../_components/galaxySeating"), { ssr: false });
 
 export default function Page() {
     const { data: session, status } = useSession();
