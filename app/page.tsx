@@ -8,7 +8,7 @@ import Logo from "../public/Logo.svg";
 import { CountdownTimer } from "./_components/countdown";
 import Starfield from "./_components/starfield";
 import StarTrail from "./_components/starTrail";
-import { isAdminEmail, isProtocolEmail, isWeddingDayOrAfter } from "./lib/access";
+import { isAdminEmail, isEarlyAccess, isProtocolEmail, isWeddingDayOrAfter } from "./lib/access";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -42,7 +42,7 @@ export default function Home() {
                   <a onClick={() => router.push("/information")} className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 px-3 sm:px-4 whitespace-nowrap">
                     Informações
                   </a>
-                  {canAccessPhotosOrTables ? (
+                  {isEarlyAccess() ? (
                     <a
                       onClick={() => router.push("/seating")}
                       className="cursor-pointer transition border-t-2 border-b-2 border-[#C8AB8B] hover:border-[#c8aa8b6e] py-2 px-3 sm:px-4 whitespace-nowrap"
